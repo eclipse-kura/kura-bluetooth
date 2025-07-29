@@ -1,0 +1,32 @@
+#!/bin/bash
+
+echo "Creating /usr/share/polkit-1/rules.d/kura-bluetooth.rules"
+echo "// DO NOT EDIT, this file will be replaced in case of Kura upgrade
+polkit.addRule(function(action, subject) {
+    if (action.id == \"org.freedesktop.systemd1.manage-units\" &&
+        subject.user == \"kurad\" &&
+        action.lookup(\"unit\") == \"bluetooth.service\") {
+        return polkit.Result.YES;
+    }
+});" >/usr/share/polkit-1/rules.d/kura-bluetooth.rules
+
+echo "Patching /etc/dbus-1/system.d/bluetooth.conf"
+if ! grep -lR kurad /etc/dbus-1/system.d/bluetooth.conf; then
+    cp /etc/dbus-1/system.d/bluetooth.conf /etc/dbus-1/system.d/bluetooth.conf.save
+    awk 'done != 1 && /^<\/busconfig>/ {
+        print "  <policy user=\"kurad\">"
+        print "    <allow own=\"org.bluez\"/>"
+        print "    <allow send_destination=\"org.bluez\"/>"
+        print "    <allow send_interface=\"org.bluez.Agent1\"/>"
+        print "    <allow send_interface=\"org.bluez.MediaEndpoint1\"/>"
+        print "    <allow send_interface=\"org.bluez.MediaPlayer1\"/>"
+        print "    <allow send_interface=\"org.bluez.Profile1\"/>"
+        print "    <allow send_interface=\"org.bluez.GattCharacteristic1\"/>"
+        print "    <allow send_interface=\"org.bluez.GattDescriptor1\"/>"
+        print "    <allow send_interface=\"org.bluez.LEAdvertisement1\"/>"
+        print "    <allow send_interface=\"org.freedesktop.DBus.ObjectManager\"/>"
+        print "    <allow send_interface=\"org.freedesktop.DBus.Properties\"/>"
+        print "  </policy>\n"
+        done = 1
+    } 1' /etc/dbus-1/system.d/bluetooth.conf >tempfile && mv tempfile /etc/dbus-1/system.d/bluetooth.conf
+fi

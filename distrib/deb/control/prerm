@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [ "${STATUS}" = "remove" ]; then
+    if [ -f /usr/share/polkit-1/rules.d/esf-bluetooth.rules ]; then
+        echo "Removing /usr/share/polkit-1/rules.d/kura-bluetooth.rules"
+        rm -f /usr/share/polkit-1/rules.d/kura-bluetooth.rules
+    fi
+    if [ -f /etc/dbus-1/system.d/bluetooth.conf.save ]; then
+        echo "Restoring /etc/dbus-1/system.d/bluetooth.conf"
+        mv /etc/dbus-1/system.d/bluetooth.conf.save /etc/dbus-1/system.d/bluetooth.conf
+    fi
+fi
