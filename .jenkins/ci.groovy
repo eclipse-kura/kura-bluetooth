@@ -2,11 +2,12 @@
 
 node {
     continuousIntegrationPipeline(
+        buildType: 'deploy',
         sonar: [
             enable: true,
-            projectKey: "eclipse-kura_kura-bluetooth",
-            tokenId: "sonarcloud-token-kura-bluetooth",
-            exclusions: "tests/**/*.java"
+            projectKey: 'eclipse-kura_kura-bluetooth',
+            tokenId: 'sonarcloud-token-kura-bluetooth',
+            exclusions: 'tests/**/*.java'
         ],
     )
 }
