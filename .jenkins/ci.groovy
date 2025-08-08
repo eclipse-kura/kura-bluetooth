@@ -1,6 +1,7 @@
 @Library('add-ons-shared-libs@develop') _
 
 node {
+    echo "test"
     continuousIntegrationPipeline(
         buildType: 'deploy',
         sonar: [
