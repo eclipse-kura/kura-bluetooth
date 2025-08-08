@@ -2,6 +2,7 @@
 
 node {
     continuousIntegrationPipeline(
+        echo "hello"
         buildType: 'deploy',
         sonar: [
             enable: true,
