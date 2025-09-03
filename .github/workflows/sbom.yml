@@ -25,4 +25,4 @@ jobs:
     with:
       # The parent project UUID the uploaded SBOM should be associated with.
       # Refer to https://sbom.eclipse.org/ to retrieve the UUID.
-      dependency-track-id: 'a3a88c65-001e-468e-8c31-7a64e13456eb'
+      dependency-track-id: '13f3ecfa-cf53-4664-b941-cf0dd58a15af'
