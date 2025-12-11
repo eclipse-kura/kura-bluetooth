@@ -258,8 +258,7 @@
                         </goals>
                         <configuration>
                             <verbose>true</verbose>
-                            <deb>
-                                ${basedir}/target/deb/${package.name}_${package.version}-${package.revision}_${deb.architecture}.deb</deb>
+                            <deb>${basedir}/target/deb/${package.name}_${package.version}-${package.revision}_${deb.architecture}.deb</deb>
                             <snapshotExpand>true</snapshotExpand>
                             <snapshotTemplate>${package.snapshot}</snapshotTemplate>
                             <controlDir>${project.basedir}/deb/control</controlDir>
@@ -357,6 +356,16 @@
                                         <group>kurad</group>
                                         <filemode>600</filemode>
                                     </mapper>
+                                </data>
+                                <!-- resources -->
+
+                               <data>
+                                    <type>files</type>
+                                    <paths>
+                                        <path>${project.basedir}/src/main/resources/scripts/kura_bluetooth_install.sh</path>
+                                        <path>${project.basedir}/src/main/resources/scripts/kura_bluetooth_uninstall.sh</path>
+                                    </paths>
+                                    <dst>/opt/eclipse/kura/.data</dst>
                                 </data>
                             </dataSet>
                         </configuration>
