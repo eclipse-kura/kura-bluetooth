@@ -7,7 +7,7 @@ node {
             enable: true,
             projectKey: "eclipse-kura_kura-bluetooth",
             tokenId: "sonarcloud-token-kura-bluetooth",
-            exclusions: "**/*.xml,**/*.yml",
+            exclusions: "tests/**/*,**/*.xml,**/*.yml",
             testExclusions: "**/*"
         ],
     )
