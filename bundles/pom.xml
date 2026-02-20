@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2025 Eurotech and/or its affiliates and others
+    Copyright (c) 2025, 2026 Eurotech and/or its affiliates and others
 
     This program and the accompanying materials are made
     available under the terms of the Eclipse Public License 2.0
@@ -41,14 +41,6 @@
         <skip.artifact.signing>true</skip.artifact.signing>
         <keystore.type>JKS</keystore.type>
     </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.github.hypfvieh</groupId>
-            <artifactId>bluez-dbus-osgi</artifactId>
-            <version>0.1.4</version>
-        </dependency>
-    </dependencies>
 
     <build>
         <pluginManagement>
