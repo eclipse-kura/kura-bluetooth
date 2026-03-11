@@ -32,7 +32,7 @@ Build
 
 In order to be able to build Eclipse Kura™ Bluetooth on your development machine, you need to have the following programs installed in your system:
 * JDK 21
-* Maven 3.9.9
+* Maven 3.9.9+
 
 <details>
 <summary>
@@ -85,7 +85,7 @@ sudo apt install openjdk-21-jdk
 ```
 For Maven   
 
-You can follow the tutorial from the official [Maven](http://maven.apache.org/install.html) site. Remember that you need to install the 3.9.9 version.
+You can follow the tutorial from the official [Maven](http://maven.apache.org/install.html) site. Remember that you need to install the 3.9.9+ version.
 
 </details>
 
