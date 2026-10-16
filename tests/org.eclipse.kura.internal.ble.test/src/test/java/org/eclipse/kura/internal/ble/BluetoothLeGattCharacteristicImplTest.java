@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2021 Eurotech and/or its affiliates and others
+ * Copyright (c) 2021, 2026 Eurotech and/or its affiliates and others
  * 
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -93,7 +93,7 @@ public class BluetoothLeGattCharacteristicImplTest {
     @Test
     public void findDescriptorByUuidWithTimeoutTest() throws KuraBluetoothResourceNotFoundException {
         assertEquals("6a5a83dc-8ca7-11eb-8dcd-0242ac130003", bluetoothLeGattCharacteristic
-                .findDescriptor(UUID.fromString("6a5a83dc-8ca7-11eb-8dcd-0242ac130003"), 1).getUUID().toString());
+                .findDescriptor(UUID.fromString("6a5a83dc-8ca7-11eb-8dcd-0242ac130003")).getUUID().toString());
     }
 
     @Test

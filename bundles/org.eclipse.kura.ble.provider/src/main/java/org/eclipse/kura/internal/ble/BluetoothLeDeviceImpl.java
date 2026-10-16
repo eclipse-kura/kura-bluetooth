@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2021 Eurotech and/or its affiliates and others
+ * Copyright (c) 2017, 2026 Eurotech and/or its affiliates and others
  * 
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -48,11 +48,6 @@ public class BluetoothLeDeviceImpl implements BluetoothLeDevice {
         } else {
             throw new KuraBluetoothResourceNotFoundException("Gatt service not found.");
         }
-    }
-
-    @Override
-    public BluetoothLeGattService findService(UUID uuid, long timeout) throws KuraBluetoothResourceNotFoundException {
-        return this.findService(uuid);
     }
 
     @Override
@@ -269,12 +264,6 @@ public class BluetoothLeDeviceImpl implements BluetoothLeDevice {
             return servicesResolved;
         }
         return false;
-    }
-
-    @Override
-    public boolean remove() throws KuraBluetoothRemoveException {
-        removeDevice();
-        return true;
     }
 
     @Override
