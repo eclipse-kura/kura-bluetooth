@@ -120,11 +120,6 @@ public class BluetoothLeAdapterImpl implements BluetoothLeAdapter {
     }
 
     @Override
-    public void setDiscoverableTimout(long value) {
-        this.setDiscoverableTimeout(value);
-    }
-
-    @Override
     public void setDiscoverableTimeout(long value) {
         this.adapter.setDiscoverableTimeout((int) value);
     }
@@ -360,11 +355,6 @@ public class BluetoothLeAdapterImpl implements BluetoothLeAdapter {
             throw new KuraBluetoothRemoveException(e, "Failed to remove devices");
         }
         return removedDevices;
-    }
-
-    @Override
-    public void setDiscoveryFilter(List<UUID> uuids, int rssi, int pathloss, BluetoothTransportType transportType) {
-        this.setDiscoveryFilter(uuids, rssi, pathloss, transportType, false);
     }
 
     @Override

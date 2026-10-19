@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2021 Eurotech and/or its affiliates and others
+ * Copyright (c) 2017, 2026 Eurotech and/or its affiliates and others
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -55,12 +55,6 @@ public class BluetoothLeGattCharacteristicImpl implements BluetoothLeGattCharact
         } else {
             throw new KuraBluetoothResourceNotFoundException("Descriptor not found");
         }
-    }
-
-    @Override
-    public BluetoothLeGattDescriptor findDescriptor(UUID uuid, long timeout)
-            throws KuraBluetoothResourceNotFoundException {
-        return findDescriptor(uuid);
     }
 
     @Override
