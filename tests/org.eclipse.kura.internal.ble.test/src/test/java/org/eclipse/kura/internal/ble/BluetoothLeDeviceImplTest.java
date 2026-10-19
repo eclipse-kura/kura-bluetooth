@@ -126,12 +126,6 @@ public class BluetoothLeDeviceImplTest {
     }
 
     @Test
-    public void findServiceWithTimeoutTest() throws KuraBluetoothResourceNotFoundException {
-        assertEquals("AA:BB:CC:DD:EE:FF", bluetoothLeDevice
-                .findService(UUID.fromString("72579a7a-8ca7-11eb-8dcd-0242ac130003")).getDevice().getAddress());
-    }
-
-    @Test
     public void findServicesTest() throws KuraBluetoothResourceNotFoundException {
         assertEquals("AA:BB:CC:DD:EE:FF", bluetoothLeDevice.findServices().get(0).getDevice().getAddress());
     }

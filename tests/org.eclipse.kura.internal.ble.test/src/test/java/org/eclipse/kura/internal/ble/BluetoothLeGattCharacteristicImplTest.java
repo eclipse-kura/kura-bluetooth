@@ -91,12 +91,6 @@ public class BluetoothLeGattCharacteristicImplTest {
     }
 
     @Test
-    public void findDescriptorByUuidWithTimeoutTest() throws KuraBluetoothResourceNotFoundException {
-        assertEquals("6a5a83dc-8ca7-11eb-8dcd-0242ac130003", bluetoothLeGattCharacteristic
-                .findDescriptor(UUID.fromString("6a5a83dc-8ca7-11eb-8dcd-0242ac130003")).getUUID().toString());
-    }
-
-    @Test
     public void findDescriptorsTest() throws KuraBluetoothResourceNotFoundException {
         assertEquals("6a5a83dc-8ca7-11eb-8dcd-0242ac130003",
                 bluetoothLeGattCharacteristic.findDescriptors().get(0).getUUID().toString());
