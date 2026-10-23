@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2018, 2020 Eurotech and/or its affiliates and others
- * 
+ * Copyright (c) 2018, 2026 Eurotech and/or its affiliates and others
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  *******************************************************************************/
@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
-
 import org.eclipse.kura.channel.ChannelRecord;
 import org.eclipse.kura.channel.ChannelStatus;
 import org.eclipse.kura.channel.listener.ChannelEvent;
@@ -102,12 +101,13 @@ public class SensorListener {
     public static <T> Consumer<T> getSensorConsumer(SensorListener listener) {
         return value -> {
             for (int index = 0; index < listener.getChannelNames().size(); index++) {
-                ChannelRecord record = ChannelRecord.createReadRecord(listener.getChannelNames().get(index),
+                ChannelRecord record = ChannelRecord.createReadRecord(
+                        listener.getChannelNames().get(index),
                         listener.getDataTypes().get(index));
                 final Optional<TypedValue<?>> typedValue = getOptionalTypedValue(listener, index, value);
                 if (!typedValue.isPresent()) {
-                    record.setChannelStatus(new ChannelStatus(FAILURE,
-                            "Error while converting the retrieved value to the defined typed", null));
+                    record.setChannelStatus(new ChannelStatus(
+                            FAILURE, "Error while converting the retrieved value to the defined typed", null));
                     record.setTimestamp(System.currentTimeMillis());
                     return;
                 }
@@ -123,34 +123,41 @@ public class SensorListener {
     private static Optional<TypedValue<?>> getOptionalTypedValue(SensorListener listener, int index, Object value) {
         Optional<TypedValue<?>> typedValue = Optional.empty();
         switch (listener.getSensorType()) {
-        case "TEMP":
-            if (SensorName.TEMP_AMBIENT.equals(listener.getSensorNames().get(index))) {
-                typedValue = SensorTagDriver.getTypedValue(listener.getDataTypes().get(index), Array.get(value, 0));
-            } else {
-                typedValue = SensorTagDriver.getTypedValue(listener.getDataTypes().get(index), Array.get(value, 1));
-            }
-            break;
-        case "ACCELERATION":
-        case "GYROSCOPE":
-        case "MAGNETIC":
-            SensorName sensorName = listener.getSensorNames().get(index);
-            if (sensorName.toString().endsWith("_X")) {
-                typedValue = SensorTagDriver.getTypedValue(listener.getDataTypes().get(index), Array.get(value, 0));
-            } else if (sensorName.toString().endsWith("_Y")) {
-                typedValue = SensorTagDriver.getTypedValue(listener.getDataTypes().get(index), Array.get(value, 1));
-            } else if (sensorName.toString().endsWith("_Z")) {
-                typedValue = SensorTagDriver.getTypedValue(listener.getDataTypes().get(index), Array.get(value, 2));
-            } else {
-                typedValue = SensorTagDriver.getTypedValue(listener.getDataTypes().get(index), Array.get(value, 0));
-            }
-            break;
-        case "HUMIDITY":
-        case "LIGHT":
-        case "PRESSURE":
-        case "KEYS":
-            typedValue = SensorTagDriver.getTypedValue(listener.getDataTypes().get(index), value);
-            break;
-        default:
+            case "TEMP":
+                if (SensorName.TEMP_AMBIENT.equals(listener.getSensorNames().get(index))) {
+                    typedValue = SensorTagDriver.getTypedValue(
+                            listener.getDataTypes().get(index), Array.get(value, 0));
+                } else {
+                    typedValue = SensorTagDriver.getTypedValue(
+                            listener.getDataTypes().get(index), Array.get(value, 1));
+                }
+                break;
+            case "ACCELERATION":
+            case "GYROSCOPE":
+            case "MAGNETIC":
+                SensorName sensorName = listener.getSensorNames().get(index);
+                if (sensorName.toString().endsWith("_X")) {
+                    typedValue = SensorTagDriver.getTypedValue(
+                            listener.getDataTypes().get(index), Array.get(value, 0));
+                } else if (sensorName.toString().endsWith("_Y")) {
+                    typedValue = SensorTagDriver.getTypedValue(
+                            listener.getDataTypes().get(index), Array.get(value, 1));
+                } else if (sensorName.toString().endsWith("_Z")) {
+                    typedValue = SensorTagDriver.getTypedValue(
+                            listener.getDataTypes().get(index), Array.get(value, 2));
+                } else {
+                    typedValue = SensorTagDriver.getTypedValue(
+                            listener.getDataTypes().get(index), Array.get(value, 0));
+                }
+                break;
+            case "HUMIDITY":
+            case "LIGHT":
+            case "PRESSURE":
+            case "KEYS":
+                typedValue =
+                        SensorTagDriver.getTypedValue(listener.getDataTypes().get(index), value);
+                break;
+            default:
         }
         return typedValue;
     }

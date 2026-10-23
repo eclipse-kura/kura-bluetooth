@@ -1,20 +1,21 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2022 Eurotech and/or its affiliates and others
- * 
+ * Copyright (c) 2017, 2026 Eurotech and/or its affiliates and others
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  *******************************************************************************/
 package org.eclipse.kura.internal.ble;
 
+import com.github.hypfvieh.bluetooth.DeviceManager;
+import com.github.hypfvieh.bluetooth.wrapper.BluetoothAdapter;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.kura.bluetooth.le.BluetoothLeAdapter;
@@ -24,9 +25,6 @@ import org.eclipse.kura.executor.CommandExecutorService;
 import org.eclipse.kura.system.SystemService;
 import org.freedesktop.dbus.exceptions.DBusException;
 import org.osgi.service.component.ComponentContext;
-
-import com.github.hypfvieh.bluetooth.DeviceManager;
-import com.github.hypfvieh.bluetooth.wrapper.BluetoothAdapter;
 
 public class BluetoothLeServiceImpl implements BluetoothLeService {
 
@@ -98,7 +96,9 @@ public class BluetoothLeServiceImpl implements BluetoothLeService {
     }
 
     private void initializeDaemon() {
-        if (!startBluetoothSuppressed() && !startBluetoothUbuntuSnap() && !startBluetoothSystemd()
+        if (!startBluetoothSuppressed()
+                && !startBluetoothUbuntuSnap()
+                && !startBluetoothSystemd()
                 && !startBluetoothInitd()) {
             startBluetoothDaemon();
         }

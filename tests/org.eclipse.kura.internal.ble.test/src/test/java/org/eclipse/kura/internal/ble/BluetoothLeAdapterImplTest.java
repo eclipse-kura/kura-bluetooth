@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021, 2026 Eurotech and/or its affiliates and others
- * 
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  ******************************************************************************/
@@ -21,13 +21,15 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.github.hypfvieh.bluetooth.DeviceManager;
+import com.github.hypfvieh.bluetooth.wrapper.BluetoothAdapter;
+import com.github.hypfvieh.bluetooth.wrapper.BluetoothDevice;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
-
 import org.bluez.exceptions.BluezFailedException;
 import org.bluez.exceptions.BluezInvalidArgumentsException;
 import org.bluez.exceptions.BluezNotReadyException;
@@ -39,10 +41,6 @@ import org.freedesktop.dbus.types.Variant;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.github.hypfvieh.bluetooth.DeviceManager;
-import com.github.hypfvieh.bluetooth.wrapper.BluetoothAdapter;
-import com.github.hypfvieh.bluetooth.wrapper.BluetoothDevice;
 
 public class BluetoothLeAdapterImplTest {
 
@@ -66,8 +64,9 @@ public class BluetoothLeAdapterImplTest {
         when(adapterMock.isPairable()).thenReturn(false);
         when(adapterMock.getPairableTimeout()).thenReturn(3000);
         when(adapterMock.isDiscovering()).thenReturn(true);
-        when(adapterMock.getUuids()).thenReturn(
-                new String[] { "6a5a83dc-8ca7-11eb-8dcd-0242ac130003", "72579a7a-8ca7-11eb-8dcd-0242ac130003" });
+        when(adapterMock.getUuids())
+                .thenReturn(
+                        new String[] {"6a5a83dc-8ca7-11eb-8dcd-0242ac130003", "72579a7a-8ca7-11eb-8dcd-0242ac130003"});
 
         when(adapterMock.startDiscovery()).thenReturn(false);
         when(adapterMock.stopDiscovery()).thenReturn(false);
@@ -110,8 +109,12 @@ public class BluetoothLeAdapterImplTest {
         assertFalse(bluetoothLeAdapter.isPairable());
         assertEquals(3000, bluetoothLeAdapter.getPairableTimeout());
         assertTrue(bluetoothLeAdapter.isDiscovering());
-        assertEquals(UUID.fromString("6a5a83dc-8ca7-11eb-8dcd-0242ac130003"), bluetoothLeAdapter.getUUIDs()[0]);
-        assertEquals(UUID.fromString("72579a7a-8ca7-11eb-8dcd-0242ac130003"), bluetoothLeAdapter.getUUIDs()[1]);
+        assertEquals(
+                UUID.fromString("6a5a83dc-8ca7-11eb-8dcd-0242ac130003"),
+                bluetoothLeAdapter.getUUIDs()[0]);
+        assertEquals(
+                UUID.fromString("72579a7a-8ca7-11eb-8dcd-0242ac130003"),
+                bluetoothLeAdapter.getUUIDs()[1]);
     }
 
     @Test(expected = KuraBluetoothDiscoveryException.class)
@@ -139,7 +142,8 @@ public class BluetoothLeAdapterImplTest {
         when(adapterMock.isDiscovering()).thenReturn(false);
         when(adapterMock.startDiscovery()).thenReturn(true);
         when(adapterMock.stopDiscovery()).thenReturn(true);
-        BluetoothLeDevice device = bluetoothLeAdapter.findDeviceByAddress(1, "11:22:33:44:55:66").get();
+        BluetoothLeDevice device =
+                bluetoothLeAdapter.findDeviceByAddress(1, "11:22:33:44:55:66").get();
 
         assertEquals("11:22:33:44:55:66", device.getAddress());
     }
@@ -150,7 +154,8 @@ public class BluetoothLeAdapterImplTest {
         when(adapterMock.isDiscovering()).thenReturn(false);
         when(adapterMock.startDiscovery()).thenReturn(true);
         when(adapterMock.stopDiscovery()).thenReturn(true);
-        BluetoothLeDevice device = bluetoothLeAdapter.findDeviceByName(1, "DeviceName").get();
+        BluetoothLeDevice device =
+                bluetoothLeAdapter.findDeviceByName(1, "DeviceName").get();
 
         assertEquals("DeviceName", device.getName());
     }
@@ -162,8 +167,8 @@ public class BluetoothLeAdapterImplTest {
         when(adapterMock.startDiscovery()).thenReturn(true);
         when(adapterMock.stopDiscovery()).thenReturn(true);
 
-        bluetoothLeAdapter.findDeviceByAddress(1, "11:22:33:44:55:66",
-                d -> assertEquals("11:22:33:44:55:66", d.getAddress()));
+        bluetoothLeAdapter.findDeviceByAddress(
+                1, "11:22:33:44:55:66", d -> assertEquals("11:22:33:44:55:66", d.getAddress()));
     }
 
     @Test
@@ -177,8 +182,9 @@ public class BluetoothLeAdapterImplTest {
     }
 
     @Test
-    public void setRssiDiscoveryFilterTest() throws BluezInvalidArgumentsException, BluezNotReadyException,
-            BluezNotSupportedException, BluezFailedException {
+    public void setRssiDiscoveryFilterTest()
+            throws BluezInvalidArgumentsException, BluezNotReadyException, BluezNotSupportedException,
+                    BluezFailedException {
         bluetoothLeAdapter.setRssiDiscoveryFilter(5);
 
         Map<String, Variant<?>> filter = new LinkedHashMap<>();
@@ -203,7 +209,8 @@ public class BluetoothLeAdapterImplTest {
         devices.add(deviceWithNullAddress);
         when(deviceManagerMock.getDevices("AA:BB:CC:DD:EE:FF", true)).thenReturn(devices);
 
-        BluetoothLeDevice result = bluetoothLeAdapter.findDeviceByAddress(1, "11:22:33:44:55:66").get();
+        BluetoothLeDevice result =
+                bluetoothLeAdapter.findDeviceByAddress(1, "11:22:33:44:55:66").get();
 
         assertNull(result);
     }
@@ -223,7 +230,8 @@ public class BluetoothLeAdapterImplTest {
         devices.add(deviceWithNullName);
         when(deviceManagerMock.getDevices("AA:BB:CC:DD:EE:FF", true)).thenReturn(devices);
 
-        BluetoothLeDevice result = bluetoothLeAdapter.findDeviceByName(1, "DeviceName").get();
+        BluetoothLeDevice result =
+                bluetoothLeAdapter.findDeviceByName(1, "DeviceName").get();
 
         assertNull(result);
     }
@@ -248,7 +256,8 @@ public class BluetoothLeAdapterImplTest {
         devices.add(matchingDevice);
         when(deviceManagerMock.getDevices("AA:BB:CC:DD:EE:FF", true)).thenReturn(devices);
 
-        BluetoothLeDevice result = bluetoothLeAdapter.findDeviceByAddress(1, "11:22:33:44:55:66").get();
+        BluetoothLeDevice result =
+                bluetoothLeAdapter.findDeviceByAddress(1, "11:22:33:44:55:66").get();
 
         assertNotNull(result);
     }

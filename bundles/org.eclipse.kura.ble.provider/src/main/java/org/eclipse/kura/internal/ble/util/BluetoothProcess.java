@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2021 Eurotech and/or its affiliates and others
- * 
+ * Copyright (c) 2017, 2026 Eurotech and/or its affiliates and others
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  *  Scott Ware
@@ -26,7 +26,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.function.Consumer;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.kura.KuraException;
@@ -71,8 +70,8 @@ public class BluetoothProcess {
         if (logger.isDebugEnabled()) {
             logger.debug("Executing: {}", Arrays.toString(cmdArray));
         }
-        Consumer<CommandStatus> callback = status -> logger.debug("Command ended with exit value {}",
-                status.getExitStatus().getExitCode());
+        Consumer<CommandStatus> callback = status -> logger.debug(
+                "Command ended with exit value {}", status.getExitStatus().getExitCode());
         Command command = new Command(cmdArray);
         command.setOutputStream(this.outputStream);
         command.setErrorStream(this.errorStream);
@@ -108,8 +107,8 @@ public class BluetoothProcess {
         if (logger.isDebugEnabled()) {
             logger.debug("Executing: {}", Arrays.toString(cmdArray));
         }
-        Consumer<CommandStatus> callback = status -> logger.debug("Command ended with exit value {}",
-                status.getExitStatus().getExitCode());
+        Consumer<CommandStatus> callback = status -> logger.debug(
+                "Command ended with exit value {}", status.getExitStatus().getExitCode());
 
         // Build command
         StringBuilder commandLine = new StringBuilder();
@@ -229,5 +228,4 @@ public class BluetoothProcess {
             }
         }
     }
-
 }

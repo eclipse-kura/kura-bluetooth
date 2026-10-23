@@ -1,17 +1,21 @@
 /*******************************************************************************
  * Copyright (c) 2017, 2026 Eurotech and/or its affiliates and others
- * 
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  *******************************************************************************/
 package org.eclipse.kura.internal.ble;
 
+import com.github.hypfvieh.bluetooth.DeviceManager;
+import com.github.hypfvieh.bluetooth.DiscoveryTransport;
+import com.github.hypfvieh.bluetooth.wrapper.BluetoothAdapter;
+import com.github.hypfvieh.bluetooth.wrapper.BluetoothDevice;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -23,7 +27,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Consumer;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.kura.KuraBluetoothDiscoveryException;
@@ -35,11 +38,6 @@ import org.freedesktop.dbus.exceptions.DBusException;
 import org.freedesktop.dbus.exceptions.DBusExecutionException;
 import org.freedesktop.dbus.types.UInt16;
 import org.freedesktop.dbus.types.Variant;
-
-import com.github.hypfvieh.bluetooth.DeviceManager;
-import com.github.hypfvieh.bluetooth.DiscoveryTransport;
-import com.github.hypfvieh.bluetooth.wrapper.BluetoothAdapter;
-import com.github.hypfvieh.bluetooth.wrapper.BluetoothDevice;
 
 public class BluetoothLeAdapterImpl implements BluetoothLeAdapter {
 
@@ -282,8 +280,8 @@ public class BluetoothLeAdapterImpl implements BluetoothLeAdapter {
                 logger.error(START_DISCOVERY_FAILED, ex);
             }
             waitForStop();
-            List<BluetoothDevice> devices = getDeviceManager()
-                    .getDevices(BluetoothLeAdapterImpl.this.adapter.getAddress(), true);
+            List<BluetoothDevice> devices =
+                    getDeviceManager().getDevices(BluetoothLeAdapterImpl.this.adapter.getAddress(), true);
             if (devices.isEmpty()) {
                 complete((T) null);
             }
@@ -339,7 +337,6 @@ public class BluetoothLeAdapterImpl implements BluetoothLeAdapter {
                 }
             }
         }
-
     }
 
     @Override
@@ -358,8 +355,8 @@ public class BluetoothLeAdapterImpl implements BluetoothLeAdapter {
     }
 
     @Override
-    public void setDiscoveryFilter(List<UUID> uuids, int rssi, int pathloss, BluetoothTransportType transportType,
-            boolean duplicateData) {
+    public void setDiscoveryFilter(
+            List<UUID> uuids, int rssi, int pathloss, BluetoothTransportType transportType, boolean duplicateData) {
         Map<String, Variant<?>> filter = new LinkedHashMap<>();
 
         // UUIDs
@@ -379,7 +376,8 @@ public class BluetoothLeAdapterImpl implements BluetoothLeAdapter {
         }
 
         // Transport Type
-        filter.put("Transport", new Variant<>(toDiscoveryTransport(transportType).toString()));
+        filter.put(
+                "Transport", new Variant<>(toDiscoveryTransport(transportType).toString()));
 
         // Duplicate Data
         filter.put("DuplicateData", new Variant<>(Boolean.valueOf(duplicateData)));
@@ -398,14 +396,14 @@ public class BluetoothLeAdapterImpl implements BluetoothLeAdapter {
 
     private DiscoveryTransport toDiscoveryTransport(BluetoothTransportType type) {
         switch (type) {
-        case AUTO:
-            return DiscoveryTransport.AUTO;
-        case BREDR:
-            return DiscoveryTransport.BREDR;
-        case LE:
-            return DiscoveryTransport.LE;
-        default:
-            return DiscoveryTransport.AUTO;
+            case AUTO:
+                return DiscoveryTransport.AUTO;
+            case BREDR:
+                return DiscoveryTransport.BREDR;
+            case LE:
+                return DiscoveryTransport.LE;
+            default:
+                return DiscoveryTransport.AUTO;
         }
     }
 

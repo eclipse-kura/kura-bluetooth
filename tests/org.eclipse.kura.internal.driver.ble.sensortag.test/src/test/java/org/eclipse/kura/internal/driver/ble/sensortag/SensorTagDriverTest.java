@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2018, 2020 Eurotech and/or its affiliates and others
- * 
+ * Copyright (c) 2018, 2026 Eurotech and/or its affiliates and others
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  ******************************************************************************/
@@ -30,7 +30,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-
 import org.eclipse.kura.KuraBluetoothConnectionException;
 import org.eclipse.kura.KuraBluetoothDiscoveryException;
 import org.eclipse.kura.KuraBluetoothIOException;
@@ -91,8 +90,8 @@ public class SensorTagDriverTest {
         when(devMock.getName()).thenReturn("CC2451");
         when(devMock.isConnected()).thenReturn(true).thenReturn(false);
 
-        Map<String, TiSensorTag> tiSensorTagMap = (Map<String, TiSensorTag>) TestUtil.getFieldValue(svc,
-                "tiSensorTagMap");
+        Map<String, TiSensorTag> tiSensorTagMap =
+                (Map<String, TiSensorTag>) TestUtil.getFieldValue(svc, "tiSensorTagMap");
         TiSensorTag tist = new TiSensorTag(devMock);
         tiSensorTagMap.put("12:34:56:78:90:AC", tist);
 
@@ -158,16 +157,16 @@ public class SensorTagDriverTest {
         verify(tist, times(1)).enableThermometer();
 
         verify(tist, times(1)).setAccelerometerPeriod(50);
-        verify(tist, times(1)).enableAccelerometer(new byte[] { 1 });
+        verify(tist, times(1)).enableAccelerometer(new byte[] {1});
 
         verify(tist, times(1)).enableHygrometer();
 
         verify(tist, times(1)).setMagnetometerPeriod(50);
-        verify(tist, times(1)).enableMagnetometer(new byte[] { 1 });
+        verify(tist, times(1)).enableMagnetometer(new byte[] {1});
 
         verify(tist, times(1)).calibrateBarometer();
         verify(tist, times(1)).enableBarometer();
-        verify(tist, times(1)).enableGyroscope(new byte[] { 7 });
+        verify(tist, times(1)).enableGyroscope(new byte[] {7});
 
         verify(tist, times(1)).enableLuxometer();
 
@@ -196,17 +195,18 @@ public class SensorTagDriverTest {
         verify(tist, times(1)).connect();
         verify(tist, times(2)).isConnected();
 
-        verify(tist, times(1)).enableAccelerometer(new byte[] { 0x38, 2 });
+        verify(tist, times(1)).enableAccelerometer(new byte[] {0x38, 2});
 
-        verify(tist, times(1)).enableMagnetometer(new byte[] { 0x40, 0 });
+        verify(tist, times(1)).enableMagnetometer(new byte[] {0x40, 0});
 
         verify(tist, times(1)).setGyroscopePeriod(50);
-        verify(tist, times(1)).enableGyroscope(new byte[] { 7, 0 });
+        verify(tist, times(1)).enableGyroscope(new byte[] {7, 0});
     }
 
     @Test
-    public void testChannelListeners() throws ConnectionException, NoSuchFieldException, InterruptedException,
-            ExecutionException, KuraBluetoothResourceNotFoundException {
+    public void testChannelListeners()
+            throws ConnectionException, NoSuchFieldException, InterruptedException, ExecutionException,
+                    KuraBluetoothResourceNotFoundException {
         String tagAddress = "12:34:56:78:90:AC";
         SensorTagDriver svc = new SensorTagDriver();
 
@@ -222,14 +222,17 @@ public class SensorTagDriverTest {
         BluetoothLeGattService preSvcMock = mock(BluetoothLeGattService.class);
         BluetoothLeGattCharacteristic preChrMock = mock(BluetoothLeGattCharacteristic.class);
         BluetoothLeGattCharacteristic prePeriodChrMock = mock(BluetoothLeGattCharacteristic.class);
-        when(preSvcMock.findCharacteristic(TiSensorTagGatt.UUID_PRE_SENSOR_VALUE)).thenReturn(preChrMock);
+        when(preSvcMock.findCharacteristic(TiSensorTagGatt.UUID_PRE_SENSOR_VALUE))
+                .thenReturn(preChrMock);
         when(preChrMock.isNotifying()).thenReturn(false).thenReturn(true);
 
         TiSensorTag tag = new TiSensorTagBuilder(true, true)
                 .addService(TiSensorTagGatt.UUID_PRE_SENSOR_SERVICE, preSvcMock)
-                .addCharacteristic(TiSensorTagGatt.UUID_PRE_SENSOR_SERVICE, TiSensorTagGatt.UUID_PRE_SENSOR_VALUE,
-                        preChrMock)
-                .addCharacteristic(TiSensorTagGatt.UUID_PRE_SENSOR_SERVICE, TiSensorTagGatt.UUID_PRE_SENSOR_PERIOD,
+                .addCharacteristic(
+                        TiSensorTagGatt.UUID_PRE_SENSOR_SERVICE, TiSensorTagGatt.UUID_PRE_SENSOR_VALUE, preChrMock)
+                .addCharacteristic(
+                        TiSensorTagGatt.UUID_PRE_SENSOR_SERVICE,
+                        TiSensorTagGatt.UUID_PRE_SENSOR_PERIOD,
                         prePeriodChrMock)
                 .build(true);
         tiSensorTagMap.put(tagAddress, tag);
@@ -245,8 +248,7 @@ public class SensorTagDriverTest {
 
         record.setChannelConfig(config);
         records.add(record);
-        ChannelListener listener = event -> {
-        };
+        ChannelListener listener = event -> {};
 
         svc.registerChannelListener(config, listener);
         assertEquals(1, sensorListeners.size());
@@ -274,8 +276,9 @@ public class SensorTagDriverTest {
     }
 
     @Test
-    public void testReadNewSensorTag() throws ConnectionException, NoSuchFieldException, InterruptedException,
-            ExecutionException, KuraBluetoothResourceNotFoundException, KuraBluetoothIOException {
+    public void testReadNewSensorTag()
+            throws ConnectionException, NoSuchFieldException, InterruptedException, ExecutionException,
+                    KuraBluetoothResourceNotFoundException, KuraBluetoothIOException {
         String address = "12:34:56:78:90:AC";
 
         SensorTagDriver svc = new SensorTagDriver();
@@ -295,8 +298,9 @@ public class SensorTagDriverTest {
         // getGattServices
         BluetoothLeGattService gattSvcMock = mock(BluetoothLeGattService.class);
         BluetoothLeGattCharacteristic blgcMock = mock(BluetoothLeGattCharacteristic.class);
-        when(blgcMock.readValue()).thenReturn(new byte[] { 0, 1, 2, (byte) 0xB4, (byte) 0x8B, 0x01 }); // 1013
-        when(gattSvcMock.findCharacteristic(TiSensorTagGatt.UUID_PRE_SENSOR_VALUE)).thenReturn(blgcMock);
+        when(blgcMock.readValue()).thenReturn(new byte[] {0, 1, 2, (byte) 0xB4, (byte) 0x8B, 0x01}); // 1013
+        when(gattSvcMock.findCharacteristic(TiSensorTagGatt.UUID_PRE_SENSOR_VALUE))
+                .thenReturn(blgcMock);
         when(bldMock.findService(TiSensorTagGatt.UUID_PRE_SENSOR_SERVICE)).thenReturn(gattSvcMock);
         // end for getSensorTag
 
@@ -330,11 +334,13 @@ public class SensorTagDriverTest {
         TestUtil.setFieldValue(svc, "tiSensorTagMap", tiSensorTagMap);
 
         BluetoothLeGattService preSvcMock = mock(BluetoothLeGattService.class);
-        doThrow(new KuraBluetoothResourceNotFoundException("test")).when(preSvcMock)
+        doThrow(new KuraBluetoothResourceNotFoundException("test"))
+                .when(preSvcMock)
                 .findCharacteristic(TiSensorTagGatt.UUID_PRE_SENSOR_VALUE);
 
         TiSensorTag tag = new TiSensorTagBuilder(true, true)
-                .addService(TiSensorTagGatt.UUID_PRE_SENSOR_SERVICE, preSvcMock).build(true);
+                .addService(TiSensorTagGatt.UUID_PRE_SENSOR_SERVICE, preSvcMock)
+                .build(true);
         tiSensorTagMap.put(address, tag);
 
         List<ChannelRecord> records = new ArrayList<>();
@@ -356,10 +362,10 @@ public class SensorTagDriverTest {
         SensorTagDriver svc = new SensorTagDriver();
         TiSensorTag tist = mock(TiSensorTag.class);
 
-        when(tist.readAcceleration()).thenReturn(new double[] { 1, 2, 3 });
-        when(tist.readGyroscope()).thenReturn(new float[] { 1, 2, 3 });
-        when(tist.readMagneticField()).thenReturn(new float[] { 1, 2, 3 });
-        when(tist.readTemperature()).thenReturn(new double[] { 1, 2 });
+        when(tist.readAcceleration()).thenReturn(new double[] {1, 2, 3});
+        when(tist.readGyroscope()).thenReturn(new float[] {1, 2, 3});
+        when(tist.readMagneticField()).thenReturn(new float[] {1, 2, 3});
+        when(tist.readTemperature()).thenReturn(new double[] {1, 2});
 
         try {
             TestUtil.invokePrivate(svc, "getReadResult", SensorName.BUZZER, tist);
@@ -455,41 +461,44 @@ public class SensorTagDriverTest {
     }
 
     @Test
-    public void testWriteGreen() throws NoSuchFieldException, InterruptedException, ExecutionException,
-            KuraBluetoothIOException, KuraBluetoothResourceNotFoundException, ConnectionException {
+    public void testWriteGreen()
+            throws NoSuchFieldException, InterruptedException, ExecutionException, KuraBluetoothIOException,
+                    KuraBluetoothResourceNotFoundException, ConnectionException {
 
         String sensorName = "GREEN_LED";
-        byte[] writeOn = new byte[] { 2 };
-        byte[] writeOff = new byte[] { (byte) 0xFD };
+        byte[] writeOn = new byte[] {2};
+        byte[] writeOff = new byte[] {(byte) 0xFD};
 
         testWrite(sensorName, writeOn, writeOff);
     }
 
     @Test
-    public void testWriteRed() throws NoSuchFieldException, InterruptedException, ExecutionException,
-            KuraBluetoothIOException, KuraBluetoothResourceNotFoundException, ConnectionException {
+    public void testWriteRed()
+            throws NoSuchFieldException, InterruptedException, ExecutionException, KuraBluetoothIOException,
+                    KuraBluetoothResourceNotFoundException, ConnectionException {
 
         String sensorName = "RED_LED";
-        byte[] writeOn = new byte[] { 1 };
-        byte[] writeOff = new byte[] { (byte) 0xFE };
+        byte[] writeOn = new byte[] {1};
+        byte[] writeOff = new byte[] {(byte) 0xFE};
 
         testWrite(sensorName, writeOn, writeOff);
     }
 
     @Test
-    public void testWriteBuzzer() throws NoSuchFieldException, InterruptedException, ExecutionException,
-            KuraBluetoothIOException, KuraBluetoothResourceNotFoundException, ConnectionException {
+    public void testWriteBuzzer()
+            throws NoSuchFieldException, InterruptedException, ExecutionException, KuraBluetoothIOException,
+                    KuraBluetoothResourceNotFoundException, ConnectionException {
 
         String sensorName = "BUZZER";
-        byte[] writeOn = new byte[] { 4 };
-        byte[] writeOff = new byte[] { (byte) 0xFB };
+        byte[] writeOn = new byte[] {4};
+        byte[] writeOff = new byte[] {(byte) 0xFB};
 
         testWrite(sensorName, writeOn, writeOff);
     }
 
     public void testWrite(String sensorName, byte[] writeOn, byte[] writeOff)
             throws NoSuchFieldException, InterruptedException, ExecutionException, KuraBluetoothIOException,
-            KuraBluetoothResourceNotFoundException, ConnectionException {
+                    KuraBluetoothResourceNotFoundException, ConnectionException {
 
         String address = "12:34:56:78:90:AC";
 
@@ -510,9 +519,10 @@ public class SensorTagDriverTest {
         // getGattServices
         BluetoothLeGattService gattSvcMock = mock(BluetoothLeGattService.class);
         BluetoothLeGattCharacteristic blgcMock = mock(BluetoothLeGattCharacteristic.class);
-        when(gattSvcMock.findCharacteristic(TiSensorTagGatt.UUID_IO_SENSOR_VALUE)).thenReturn(blgcMock);
+        when(gattSvcMock.findCharacteristic(TiSensorTagGatt.UUID_IO_SENSOR_VALUE))
+                .thenReturn(blgcMock);
         // all off, all on
-        when(blgcMock.readValue()).thenReturn(new byte[] { 0 }).thenReturn(new byte[] { (byte) 0xFF });
+        when(blgcMock.readValue()).thenReturn(new byte[] {0}).thenReturn(new byte[] {(byte) 0xFF});
         when(bldMock.findService(TiSensorTagGatt.UUID_IO_SENSOR_SERVICE)).thenReturn(gattSvcMock);
         // end for getSensorTag
 
@@ -573,10 +583,12 @@ public class SensorTagDriverTest {
             return this;
         }
 
-        public TiSensorTagBuilder addCharacteristic(UUID serviceId, UUID CharacteristicId,
-                BluetoothLeGattCharacteristic characteristic) throws KuraBluetoothResourceNotFoundException {
+        public TiSensorTagBuilder addCharacteristic(
+                UUID serviceId, UUID CharacteristicId, BluetoothLeGattCharacteristic characteristic)
+                throws KuraBluetoothResourceNotFoundException {
 
-            when(deviceMock.findService(serviceId).findCharacteristic(CharacteristicId)).thenReturn(characteristic);
+            when(deviceMock.findService(serviceId).findCharacteristic(CharacteristicId))
+                    .thenReturn(characteristic);
 
             return this;
         }
@@ -599,6 +611,5 @@ public class SensorTagDriverTest {
 
             return tag;
         }
-
     }
 }

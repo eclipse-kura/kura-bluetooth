@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2018, 2020 Eurotech and/or its affiliates and others
- * 
+ * Copyright (c) 2018, 2026 Eurotech and/or its affiliates and others
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  ******************************************************************************/
@@ -18,7 +18,6 @@ import static org.junit.Assert.assertNull;
 
 import java.util.Arrays;
 import java.util.UUID;
-
 import org.eclipse.kura.ble.ibeacon.BluetoothLeIBeacon;
 import org.junit.Test;
 
@@ -97,8 +96,40 @@ public class BluetoothLeIBeaconEncoderDecoderImplTest {
 
         encoded = encoder.encode(beacon);
 
-        byte[] expected = { 30, 2, 1, 0x1F, 0x1A, (byte) 0xFF, 76, 0, 2, 21, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17,
-                17, 17, 17, 17, 17, 0, 5, 0, 2, 50, 0 };
+        byte[] expected = {
+            30,
+            2,
+            1,
+            0x1F,
+            0x1A,
+            (byte) 0xFF,
+            76,
+            0,
+            2,
+            21,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            0,
+            5,
+            0,
+            2,
+            50,
+            0
+        };
 
         assertArrayEquals(expected, encoded);
     }
@@ -130,8 +161,40 @@ public class BluetoothLeIBeaconEncoderDecoderImplTest {
 
         encoded = encoder.encode(beacon);
 
-        byte[] expected = { 30, 2, 1, 0x1F, 0x1A, (byte) 0xFF, 76, 0, 2, 21, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17,
-                17, 17, 17, 17, 17, 0, 5, 0, 2, 126, 0 };
+        byte[] expected = {
+            30,
+            2,
+            1,
+            0x1F,
+            0x1A,
+            (byte) 0xFF,
+            76,
+            0,
+            2,
+            21,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            0,
+            5,
+            0,
+            2,
+            126,
+            0
+        };
 
         assertArrayEquals(expected, encoded);
     }
@@ -163,8 +226,40 @@ public class BluetoothLeIBeaconEncoderDecoderImplTest {
 
         encoded = encoder.encode(beacon);
 
-        byte[] expected = { 30, 2, 1, 0x1F, 0x1A, (byte) 0xFF, 76, 0, 2, 21, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17,
-                17, 17, 17, 17, 17, 0, 5, 0, 2, -127, 0 };
+        byte[] expected = {
+            30,
+            2,
+            1,
+            0x1F,
+            0x1A,
+            (byte) 0xFF,
+            76,
+            0,
+            2,
+            21,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            0,
+            5,
+            0,
+            2,
+            -127,
+            0
+        };
 
         assertArrayEquals(expected, encoded);
     }
@@ -182,8 +277,38 @@ public class BluetoothLeIBeaconEncoderDecoderImplTest {
         beacon.setTxPower((short) 50);
         beacon.setUuid(UUID.fromString("11111111-1111-1111-1111-111111111112"));
 
-        byte[] encoded = { 1, 0x1F, 26, (byte) 0xFF, 76, 0, 2, 21, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17,
-                17, 17, 18, 0, 5, 0, 2, 50, 0 };
+        byte[] encoded = {
+            1,
+            0x1F,
+            26,
+            (byte) 0xFF,
+            76,
+            0,
+            2,
+            21,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            18,
+            0,
+            5,
+            0,
+            2,
+            50,
+            0
+        };
 
         BluetoothLeIBeaconDecoderImpl decoder = new BluetoothLeIBeaconDecoderImpl();
         BluetoothLeIBeacon decoded = decoder.decode(encoded);
@@ -193,8 +318,10 @@ public class BluetoothLeIBeaconEncoderDecoderImplTest {
 
     @Test
     public void testDecodeStopAt0() {
-        byte[] encoded = { 1, 0x1F, 26, 1, 76, 0, 2, 21, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 18,
-                0, 5, 0, 2, 50, 0, 0 };
+        byte[] encoded = {
+            1, 0x1F, 26, 1, 76, 0, 2, 21, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 18, 0, 5, 0, 2,
+            50, 0, 0
+        };
 
         BluetoothLeIBeaconDecoderImpl decoder = new BluetoothLeIBeaconDecoderImpl();
         BluetoothLeIBeacon decoded = decoder.decode(encoded);
@@ -214,5 +341,4 @@ public class BluetoothLeIBeaconEncoderDecoderImplTest {
         assertEquals(beacon.isLeGeneral(), decoded.isLeGeneral());
         assertEquals(beacon.isLeLimited(), decoded.isLeLimited());
     }
-
 }

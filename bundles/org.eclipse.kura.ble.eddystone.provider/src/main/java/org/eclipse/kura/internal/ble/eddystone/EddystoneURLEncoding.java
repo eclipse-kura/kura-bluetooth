@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2020 Eurotech and/or its affiliates and others
- * 
+ * Copyright (c) 2017, 2026 Eurotech and/or its affiliates and others
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  *******************************************************************************/
@@ -46,7 +46,8 @@ public class EddystoneURLEncoding {
     public static byte[] encodeURL(String url) {
         String hexUrl = String.format("%x", new BigInteger(1, url.getBytes()));
         for (Entry<Byte, String> entry : urlEncodings.entrySet()) {
-            hexUrl = hexUrl.replaceAll(String.format("%x", new BigInteger(1, entry.getValue().getBytes())),
+            hexUrl = hexUrl.replaceAll(
+                    String.format("%x", new BigInteger(1, entry.getValue().getBytes())),
                     String.format("%02x", (int) entry.getKey()));
         }
         return urlToByteArray(hexUrl);
@@ -67,10 +68,9 @@ public class EddystoneURLEncoding {
     private static byte[] urlToByteArray(String url) {
         byte[] urlArray = new byte[url.length() / 2];
         for (int i = 0; i < url.length(); i += 2) {
-            urlArray[i
-                    / 2] = (byte) ((Character.digit(url.charAt(i), 16) << 4) + Character.digit(url.charAt(i + 1), 16));
+            urlArray[i / 2] =
+                    (byte) ((Character.digit(url.charAt(i), 16) << 4) + Character.digit(url.charAt(i + 1), 16));
         }
         return urlArray;
     }
-
 }

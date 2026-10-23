@@ -1,12 +1,12 @@
 /**
- * Copyright (c) 2017, 2020 Eurotech and/or its affiliates and others
- * 
+ * Copyright (c) 2017, 2026 Eurotech and/or its affiliates and others
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  */
@@ -29,7 +29,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-
 import org.eclipse.kura.KuraBluetoothIOException;
 import org.eclipse.kura.KuraException;
 import org.eclipse.kura.bluetooth.le.BluetoothLeAdapter;
@@ -170,10 +169,10 @@ public final class SensorTagDriver implements Driver, ConfigurableComponent {
 
             sensorTag.setAccelerometerPeriod(50);
             if (sensorTag.isCC2650()) {
-                byte[] config = { 0x38, 0x02 };
+                byte[] config = {0x38, 0x02};
                 sensorTag.enableAccelerometer(config);
             } else {
-                byte[] config = { 0x01 };
+                byte[] config = {0x01};
                 sensorTag.enableAccelerometer(config);
             }
 
@@ -181,10 +180,10 @@ public final class SensorTagDriver implements Driver, ConfigurableComponent {
 
             sensorTag.setMagnetometerPeriod(50);
             if (sensorTag.isCC2650()) {
-                byte[] config = { 0x40, 0x00 };
+                byte[] config = {0x40, 0x00};
                 sensorTag.enableMagnetometer(config);
             } else {
-                byte[] config = { 0x01 };
+                byte[] config = {0x01};
                 sensorTag.enableMagnetometer(config);
             }
 
@@ -194,10 +193,10 @@ public final class SensorTagDriver implements Driver, ConfigurableComponent {
 
             if (sensorTag.isCC2650()) {
                 sensorTag.setGyroscopePeriod(50);
-                byte[] config = { 0x07, 0x00 };
+                byte[] config = {0x07, 0x00};
                 sensorTag.enableGyroscope(config);
             } else {
-                byte[] config = { 0x07 };
+                byte[] config = {0x07};
                 sensorTag.enableGyroscope(config);
             }
 
@@ -235,22 +234,23 @@ public final class SensorTagDriver implements Driver, ConfigurableComponent {
     public static Optional<TypedValue<?>> getTypedValue(final DataType expectedValueType, final Object containedValue) {
         try {
             switch (expectedValueType) {
-            case LONG:
-                return Optional.of(TypedValues.newLongValue((long) Double.parseDouble(containedValue.toString())));
-            case FLOAT:
-                return Optional.of(TypedValues.newFloatValue(Float.parseFloat(containedValue.toString())));
-            case DOUBLE:
-                return Optional.of(TypedValues.newDoubleValue(Double.parseDouble(containedValue.toString())));
-            case INTEGER:
-                return Optional.of(TypedValues.newIntegerValue((int) Double.parseDouble(containedValue.toString())));
-            case BOOLEAN:
-                return Optional.of(TypedValues.newBooleanValue(Boolean.parseBoolean(containedValue.toString())));
-            case STRING:
-                return Optional.of(TypedValues.newStringValue(containedValue.toString()));
-            case BYTE_ARRAY:
-                return Optional.of(TypedValues.newByteArrayValue(TypeUtil.objectToByteArray(containedValue)));
-            default:
-                return Optional.empty();
+                case LONG:
+                    return Optional.of(TypedValues.newLongValue((long) Double.parseDouble(containedValue.toString())));
+                case FLOAT:
+                    return Optional.of(TypedValues.newFloatValue(Float.parseFloat(containedValue.toString())));
+                case DOUBLE:
+                    return Optional.of(TypedValues.newDoubleValue(Double.parseDouble(containedValue.toString())));
+                case INTEGER:
+                    return Optional.of(
+                            TypedValues.newIntegerValue((int) Double.parseDouble(containedValue.toString())));
+                case BOOLEAN:
+                    return Optional.of(TypedValues.newBooleanValue(Boolean.parseBoolean(containedValue.toString())));
+                case STRING:
+                    return Optional.of(TypedValues.newStringValue(containedValue.toString()));
+                case BYTE_ARRAY:
+                    return Optional.of(TypedValues.newByteArrayValue(TypeUtil.objectToByteArray(containedValue)));
+                default:
+                    return Optional.empty();
             }
         } catch (final Exception ex) {
             logger.error("Error while converting the retrieved value to the defined typed", ex);
@@ -267,8 +267,8 @@ public final class SensorTagDriver implements Driver, ConfigurableComponent {
                 Object readResult = getReadResult(requestInfo.sensorName, sensorTag);
                 final Optional<TypedValue<?>> typedValue = getTypedValue(requestInfo.dataType, readResult);
                 if (!typedValue.isPresent()) {
-                    record.setChannelStatus(new ChannelStatus(FAILURE,
-                            "Error while converting the retrieved value to the defined typed", null));
+                    record.setChannelStatus(new ChannelStatus(
+                            FAILURE, "Error while converting the retrieved value to the defined typed", null));
                     record.setTimestamp(System.currentTimeMillis());
                     return;
                 }
@@ -290,36 +290,36 @@ public final class SensorTagDriver implements Driver, ConfigurableComponent {
 
     private Object getReadResult(SensorName sensorName, TiSensorTag sensorTag) throws KuraBluetoothIOException {
         switch (sensorName) {
-        case TEMP_AMBIENT:
-            return sensorTag.readTemperature()[0];
-        case TEMP_TARGET:
-            return sensorTag.readTemperature()[1];
-        case HUMIDITY:
-            return sensorTag.readHumidity();
-        case ACCELERATION_X:
-            return sensorTag.readAcceleration()[0];
-        case ACCELERATION_Y:
-            return sensorTag.readAcceleration()[1];
-        case ACCELERATION_Z:
-            return sensorTag.readAcceleration()[2];
-        case MAGNETIC_X:
-            return sensorTag.readMagneticField()[0];
-        case MAGNETIC_Y:
-            return sensorTag.readMagneticField()[1];
-        case MAGNETIC_Z:
-            return sensorTag.readMagneticField()[2];
-        case GYROSCOPE_X:
-            return sensorTag.readGyroscope()[0];
-        case GYROSCOPE_Y:
-            return sensorTag.readGyroscope()[1];
-        case GYROSCOPE_Z:
-            return sensorTag.readGyroscope()[2];
-        case LIGHT:
-            return sensorTag.readLight();
-        case PRESSURE:
-            return sensorTag.readPressure();
-        default:
-            throw new KuraBluetoothIOException("Read is unsupported for sensor " + sensorName.toString());
+            case TEMP_AMBIENT:
+                return sensorTag.readTemperature()[0];
+            case TEMP_TARGET:
+                return sensorTag.readTemperature()[1];
+            case HUMIDITY:
+                return sensorTag.readHumidity();
+            case ACCELERATION_X:
+                return sensorTag.readAcceleration()[0];
+            case ACCELERATION_Y:
+                return sensorTag.readAcceleration()[1];
+            case ACCELERATION_Z:
+                return sensorTag.readAcceleration()[2];
+            case MAGNETIC_X:
+                return sensorTag.readMagneticField()[0];
+            case MAGNETIC_Y:
+                return sensorTag.readMagneticField()[1];
+            case MAGNETIC_Z:
+                return sensorTag.readMagneticField()[2];
+            case GYROSCOPE_X:
+                return sensorTag.readGyroscope()[0];
+            case GYROSCOPE_Y:
+                return sensorTag.readGyroscope()[1];
+            case GYROSCOPE_Z:
+                return sensorTag.readGyroscope()[2];
+            case LIGHT:
+                return sensorTag.readLight();
+            case PRESSURE:
+                return sensorTag.readPressure();
+            default:
+                throw new KuraBluetoothIOException("Read is unsupported for sensor " + sensorName.toString());
         }
     }
 
@@ -364,8 +364,11 @@ public final class SensorTagDriver implements Driver, ConfigurableComponent {
         try {
             TiSensorTag sensorTag = getSensorTag(SensorTagChannelDescriptor.getSensorTagAddress(channelConfig));
             if (sensorTag.isConnected()) {
-                SensorListener sensorListener = getSensorListener(sensorTag,
-                        SensorTagChannelDescriptor.getSensorName(channelConfig).toString().split("_")[0],
+                SensorListener sensorListener = getSensorListener(
+                        sensorTag,
+                        SensorTagChannelDescriptor.getSensorName(channelConfig)
+                                .toString()
+                                .split("_")[0],
                         SensorTagChannelDescriptor.getNotificationPeriod(channelConfig));
                 sensorListener.addChannelName((String) channelConfig.get("+name"));
                 sensorListener.addDataType(DataType.getDataType((String) channelConfig.get("+value.type")));
@@ -418,28 +421,28 @@ public final class SensorTagDriver implements Driver, ConfigurableComponent {
         }
 
         switch (requestInfo.sensorName) {
-        case GREEN_LED:
-            if ((boolean) value.getValue()) {
-                sensorTag.switchOnGreenLed();
-            } else {
-                sensorTag.switchOffGreenLed();
-            }
-            break;
-        case RED_LED:
-            if ((boolean) value.getValue()) {
-                sensorTag.switchOnRedLed();
-            } else {
-                sensorTag.switchOffRedLed();
-            }
-            break;
-        case BUZZER:
-            if ((boolean) value.getValue()) {
-                sensorTag.switchOnBuzzer();
-            } else {
-                sensorTag.switchOffBuzzer();
-            }
-            break;
-        default:
+            case GREEN_LED:
+                if ((boolean) value.getValue()) {
+                    sensorTag.switchOnGreenLed();
+                } else {
+                    sensorTag.switchOffGreenLed();
+                }
+                break;
+            case RED_LED:
+                if ((boolean) value.getValue()) {
+                    sensorTag.switchOnRedLed();
+                } else {
+                    sensorTag.switchOffRedLed();
+                }
+                break;
+            case BUZZER:
+                if ((boolean) value.getValue()) {
+                    sensorTag.switchOnBuzzer();
+                } else {
+                    sensorTag.switchOffBuzzer();
+                }
+                break;
+            default:
         }
 
         record.setChannelStatus(new ChannelStatus(SUCCESS));
@@ -459,8 +462,11 @@ public final class SensorTagDriver implements Driver, ConfigurableComponent {
         private final SensorName sensorName;
         private final ChannelRecord channelRecord;
 
-        public SensorTagRequestInfo(final ChannelRecord channelRecord, final DataType dataType,
-                final String sensorTagAddress, final SensorName sensorName) {
+        public SensorTagRequestInfo(
+                final ChannelRecord channelRecord,
+                final DataType dataType,
+                final String sensorTagAddress,
+                final SensorName sensorName) {
             this.dataType = dataType;
             this.sensorTagAddress = sensorTagAddress;
             this.sensorName = sensorName;
@@ -520,58 +526,67 @@ public final class SensorTagDriver implements Driver, ConfigurableComponent {
 
     private void registerNotification(SensorListener sensorListener) {
         switch (sensorListener.getSensorType()) {
-        case "TEMP":
-            sensorListener.getSensorTag().setThermometerPeriod(sensorListener.getPeriod() / 10);
-            unregisterTemperatureNotification(sensorListener);
-            sensorListener.getSensorTag()
-                    .enableTemperatureNotifications(SensorListener.getSensorConsumer(sensorListener));
-            break;
-        case "ACCELERATION":
-            sensorListener.getSensorTag().setAccelerometerPeriod(sensorListener.getPeriod() / 10);
-            unregisterAccelerationNotification(sensorListener);
-            sensorListener.getSensorTag()
-                    .enableAccelerationNotifications(SensorListener.getSensorConsumer(sensorListener));
-            break;
-        case "GYROSCOPE":
-            sensorListener.getSensorTag().setGyroscopePeriod(sensorListener.getPeriod() / 10);
-            unregisterGyroscopeNotification(sensorListener);
-            sensorListener.getSensorTag()
-                    .enableGyroscopeNotifications(SensorListener.getSensorConsumer(sensorListener));
-            break;
-        case "MAGNETIC":
-            sensorListener.getSensorTag().setMagnetometerPeriod(sensorListener.getPeriod() / 10);
-            unregisterMagneticNotification(sensorListener);
-            sensorListener.getSensorTag()
-                    .enableMagneticFieldNotifications(SensorListener.getSensorConsumer(sensorListener));
-            break;
-        case "HUMIDITY":
-            sensorListener.getSensorTag().setHygrometerPeriod(sensorListener.getPeriod() / 10);
-            unregisterHumidityNotification(sensorListener);
-            sensorListener.getSensorTag().enableHumidityNotifications(SensorListener.getSensorConsumer(sensorListener));
-            break;
-        case "LIGHT":
-            sensorListener.getSensorTag().setLuxometerPeriod(sensorListener.getPeriod() / 10);
-            unregisterLightNotification(sensorListener);
-            sensorListener.getSensorTag().enableLightNotifications(SensorListener.getSensorConsumer(sensorListener));
-            break;
-        case "PRESSURE":
-            sensorListener.getSensorTag().setBarometerPeriod(sensorListener.getPeriod() / 10);
-            unregisterPressureNotification(sensorListener);
-            sensorListener.getSensorTag().enablePressureNotifications(SensorListener.getSensorConsumer(sensorListener));
-            break;
-        case "KEYS":
-            // Register and unregister listeners for buttons too fast can cause problem on native library
-            unregisterKeysNotification(sensorListener);
-            waitFor(1000);
-            sensorListener.getSensorTag().enableKeysNotification(SensorListener.getSensorConsumer(sensorListener));
-            break;
-        case "BUZZER":
-        case "GREEN_LED":
-        case "RED_LED":
-            logger.info("Notifications not supported for buzzer and leds");
-            break;
-        default:
-
+            case "TEMP":
+                sensorListener.getSensorTag().setThermometerPeriod(sensorListener.getPeriod() / 10);
+                unregisterTemperatureNotification(sensorListener);
+                sensorListener
+                        .getSensorTag()
+                        .enableTemperatureNotifications(SensorListener.getSensorConsumer(sensorListener));
+                break;
+            case "ACCELERATION":
+                sensorListener.getSensorTag().setAccelerometerPeriod(sensorListener.getPeriod() / 10);
+                unregisterAccelerationNotification(sensorListener);
+                sensorListener
+                        .getSensorTag()
+                        .enableAccelerationNotifications(SensorListener.getSensorConsumer(sensorListener));
+                break;
+            case "GYROSCOPE":
+                sensorListener.getSensorTag().setGyroscopePeriod(sensorListener.getPeriod() / 10);
+                unregisterGyroscopeNotification(sensorListener);
+                sensorListener
+                        .getSensorTag()
+                        .enableGyroscopeNotifications(SensorListener.getSensorConsumer(sensorListener));
+                break;
+            case "MAGNETIC":
+                sensorListener.getSensorTag().setMagnetometerPeriod(sensorListener.getPeriod() / 10);
+                unregisterMagneticNotification(sensorListener);
+                sensorListener
+                        .getSensorTag()
+                        .enableMagneticFieldNotifications(SensorListener.getSensorConsumer(sensorListener));
+                break;
+            case "HUMIDITY":
+                sensorListener.getSensorTag().setHygrometerPeriod(sensorListener.getPeriod() / 10);
+                unregisterHumidityNotification(sensorListener);
+                sensorListener
+                        .getSensorTag()
+                        .enableHumidityNotifications(SensorListener.getSensorConsumer(sensorListener));
+                break;
+            case "LIGHT":
+                sensorListener.getSensorTag().setLuxometerPeriod(sensorListener.getPeriod() / 10);
+                unregisterLightNotification(sensorListener);
+                sensorListener
+                        .getSensorTag()
+                        .enableLightNotifications(SensorListener.getSensorConsumer(sensorListener));
+                break;
+            case "PRESSURE":
+                sensorListener.getSensorTag().setBarometerPeriod(sensorListener.getPeriod() / 10);
+                unregisterPressureNotification(sensorListener);
+                sensorListener
+                        .getSensorTag()
+                        .enablePressureNotifications(SensorListener.getSensorConsumer(sensorListener));
+                break;
+            case "KEYS":
+                // Register and unregister listeners for buttons too fast can cause problem on native library
+                unregisterKeysNotification(sensorListener);
+                waitFor(1000);
+                sensorListener.getSensorTag().enableKeysNotification(SensorListener.getSensorConsumer(sensorListener));
+                break;
+            case "BUZZER":
+            case "GREEN_LED":
+            case "RED_LED":
+                logger.info("Notifications not supported for buzzer and leds");
+                break;
+            default:
         }
     }
 
@@ -628,37 +643,36 @@ public final class SensorTagDriver implements Driver, ConfigurableComponent {
     private void unregisterNotification(SensorListener sensorListener) {
         if (sensorListener.getSensorTag().isConnected()) {
             switch (sensorListener.getSensorType()) {
-            case "TEMP":
-                unregisterTemperatureNotification(sensorListener);
-                break;
-            case "ACCELERATION":
-                unregisterAccelerationNotification(sensorListener);
-                break;
-            case "GYROSCOPE":
-                unregisterGyroscopeNotification(sensorListener);
-                break;
-            case "MAGNETIC":
-                unregisterMagneticNotification(sensorListener);
-                break;
-            case "HUMIDITY":
-                unregisterHumidityNotification(sensorListener);
-                break;
-            case "LIGHT":
-                unregisterLightNotification(sensorListener);
-                break;
-            case "PRESSURE":
-                unregisterPressureNotification(sensorListener);
-                break;
-            case "KEYS":
-                unregisterKeysNotification(sensorListener);
-                break;
-            case "BUZZER":
-            case "GREEN_LED":
-            case "RED_LED":
-                logger.info("Notifications not supported for buzzer and leds");
-                break;
-            default:
-
+                case "TEMP":
+                    unregisterTemperatureNotification(sensorListener);
+                    break;
+                case "ACCELERATION":
+                    unregisterAccelerationNotification(sensorListener);
+                    break;
+                case "GYROSCOPE":
+                    unregisterGyroscopeNotification(sensorListener);
+                    break;
+                case "MAGNETIC":
+                    unregisterMagneticNotification(sensorListener);
+                    break;
+                case "HUMIDITY":
+                    unregisterHumidityNotification(sensorListener);
+                    break;
+                case "LIGHT":
+                    unregisterLightNotification(sensorListener);
+                    break;
+                case "PRESSURE":
+                    unregisterPressureNotification(sensorListener);
+                    break;
+                case "KEYS":
+                    unregisterKeysNotification(sensorListener);
+                    break;
+                case "BUZZER":
+                case "GREEN_LED":
+                case "RED_LED":
+                    logger.info("Notifications not supported for buzzer and leds");
+                    break;
+                default:
             }
         } else {
             logger.info("Listener unregistation failed: TiSensorTag not connected");

@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2018, 2020 Eurotech and/or its affiliates and others
- * 
+ * Copyright (c) 2018, 2026 Eurotech and/or its affiliates and others
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  ******************************************************************************/
@@ -43,18 +43,21 @@ public class BluetoothLeBeaconScannerImplTest {
 
         Object lock = new Object();
         doAnswer(invocation -> {
-            synchronized (lock) {
-                lock.notifyAll();
-            }
-            return null;
-        }).when(beaconManagerMock).stopBeaconScan(adapterMock);
+                    synchronized (lock) {
+                        lock.notifyAll();
+                    }
+                    return null;
+                })
+                .when(beaconManagerMock)
+                .stopBeaconScan(adapterMock);
 
         new Thread(() -> {
-            try {
-                svc.startBeaconScan(1);
-            } catch (KuraBluetoothCommandException e) {
-            }
-        }).start();
+                    try {
+                        svc.startBeaconScan(1);
+                    } catch (KuraBluetoothCommandException e) {
+                    }
+                })
+                .start();
 
         Thread.sleep(100);
 
@@ -87,14 +90,13 @@ public class BluetoothLeBeaconScannerImplTest {
                 return BluetoothLeBeacon.class;
             }
         };
-        BluetoothLeBeaconScannerImpl<?> svc = new BluetoothLeBeaconScannerImpl<>(adapterMock, decoderMock,
-                beaconManagerMock);
+        BluetoothLeBeaconScannerImpl<?> svc =
+                new BluetoothLeBeaconScannerImpl<>(adapterMock, decoderMock, beaconManagerMock);
 
         BluetoothLeBeaconListener listener = new BluetoothLeBeaconListener() {
 
             @Override
-            public void onBeaconsReceived(BluetoothLeBeacon beacon) {
-            }
+            public void onBeaconsReceived(BluetoothLeBeacon beacon) {}
         };
         svc.addBeaconListener(listener);
 

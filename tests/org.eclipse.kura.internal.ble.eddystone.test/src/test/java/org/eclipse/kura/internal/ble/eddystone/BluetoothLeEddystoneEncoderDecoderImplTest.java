@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2018, 2020 Eurotech and/or its affiliates and others
- * 
+ * Copyright (c) 2018, 2026 Eurotech and/or its affiliates and others
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  ******************************************************************************/
@@ -17,7 +17,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import java.util.Arrays;
-
 import org.eclipse.kura.ble.eddystone.BluetoothLeEddystone;
 import org.junit.Test;
 
@@ -55,15 +54,47 @@ public class BluetoothLeEddystoneEncoderDecoderImplTest {
         beacon.setLeLimited(true);
         beacon.setTxPower((short) 50);
         beacon.setFrameType(EddystoneFrameType.UID.name());
-        byte[] namespace = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        byte[] namespace = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
         beacon.setNamespace(namespace);
-        byte[] instance = { 0, 1, 2, 3, 4, 5 };
+        byte[] instance = {0, 1, 2, 3, 4, 5};
         beacon.setInstance(instance);
 
         encoded = encoder.encode(beacon);
 
-        byte[] expected = { 31, 2, 1, 31, 3, 3, (byte) 0xAA, (byte) 0xFE, 23, 22, (byte) 0xAA, (byte) 0xFE, 0, 50, 0, 1,
-                2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 0, 0 };
+        byte[] expected = {
+            31,
+            2,
+            1,
+            31,
+            3,
+            3,
+            (byte) 0xAA,
+            (byte) 0xFE,
+            23,
+            22,
+            (byte) 0xAA,
+            (byte) 0xFE,
+            0,
+            50,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            0,
+            0
+        };
 
         assertArrayEquals(expected, encoded);
     }
@@ -89,15 +120,47 @@ public class BluetoothLeEddystoneEncoderDecoderImplTest {
         beacon.setLeLimited(true);
         beacon.setTxPower((short) 180);
         beacon.setFrameType(EddystoneFrameType.UID.name());
-        byte[] namespace = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        byte[] namespace = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
         beacon.setNamespace(namespace);
-        byte[] instance = { 0, 1, 2, 3, 4, 5 };
+        byte[] instance = {0, 1, 2, 3, 4, 5};
         beacon.setInstance(instance);
 
         encoded = encoder.encode(beacon);
 
-        byte[] expected = { 31, 2, 1, 31, 3, 3, (byte) 0xAA, (byte) 0xFE, 23, 22, (byte) 0xAA, (byte) 0xFE, 0, 126, 0,
-                1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 0, 0 };
+        byte[] expected = {
+            31,
+            2,
+            1,
+            31,
+            3,
+            3,
+            (byte) 0xAA,
+            (byte) 0xFE,
+            23,
+            22,
+            (byte) 0xAA,
+            (byte) 0xFE,
+            0,
+            126,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            0,
+            0
+        };
 
         assertArrayEquals(expected, encoded);
     }
@@ -123,15 +186,47 @@ public class BluetoothLeEddystoneEncoderDecoderImplTest {
         beacon.setLeLimited(true);
         beacon.setTxPower((short) -190);
         beacon.setFrameType(EddystoneFrameType.UID.name());
-        byte[] namespace = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        byte[] namespace = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
         beacon.setNamespace(namespace);
-        byte[] instance = { 0, 1, 2, 3, 4, 5 };
+        byte[] instance = {0, 1, 2, 3, 4, 5};
         beacon.setInstance(instance);
 
         encoded = encoder.encode(beacon);
 
-        byte[] expected = { 31, 2, 1, 31, 3, 3, (byte) 0xAA, (byte) 0xFE, 23, 22, (byte) 0xAA, (byte) 0xFE, 0, -127, 0,
-                1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 0, 0 };
+        byte[] expected = {
+            31,
+            2,
+            1,
+            31,
+            3,
+            3,
+            (byte) 0xAA,
+            (byte) 0xFE,
+            23,
+            22,
+            (byte) 0xAA,
+            (byte) 0xFE,
+            0,
+            -127,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            0,
+            0
+        };
 
         assertArrayEquals(expected, encoded);
     }
@@ -182,8 +277,40 @@ public class BluetoothLeEddystoneEncoderDecoderImplTest {
 
         byte[] encoded = encoder.encode(beacon);
 
-        byte[] expected = { 30, 2, 1, 31, 3, 3, (byte) 0xAA, (byte) 0xFE, 22, 22, (byte) 0xAA, (byte) 0xFE, 16, 50, 2,
-                104, 116, 116, 112, 58, 47, 47, 101, 117, 114, 111, 116, 101, 99, 104, 7, 0 };
+        byte[] expected = {
+            30,
+            2,
+            1,
+            31,
+            3,
+            3,
+            (byte) 0xAA,
+            (byte) 0xFE,
+            22,
+            22,
+            (byte) 0xAA,
+            (byte) 0xFE,
+            16,
+            50,
+            2,
+            104,
+            116,
+            116,
+            112,
+            58,
+            47,
+            47,
+            101,
+            117,
+            114,
+            111,
+            116,
+            101,
+            99,
+            104,
+            7,
+            0
+        };
 
         assertArrayEquals(expected, encoded);
     }
@@ -207,8 +334,40 @@ public class BluetoothLeEddystoneEncoderDecoderImplTest {
 
         byte[] encoded = encoder.encode(beacon);
 
-        byte[] expected = { 30, 2, 1, 31, 3, 3, (byte) 0xAA, (byte) 0xFE, 22, 22, (byte) 0xAA, (byte) 0xFE, 16, 126, 2,
-                104, 116, 116, 112, 58, 47, 47, 101, 117, 114, 111, 116, 101, 99, 104, 7, 0 };
+        byte[] expected = {
+            30,
+            2,
+            1,
+            31,
+            3,
+            3,
+            (byte) 0xAA,
+            (byte) 0xFE,
+            22,
+            22,
+            (byte) 0xAA,
+            (byte) 0xFE,
+            16,
+            126,
+            2,
+            104,
+            116,
+            116,
+            112,
+            58,
+            47,
+            47,
+            101,
+            117,
+            114,
+            111,
+            116,
+            101,
+            99,
+            104,
+            7,
+            0
+        };
 
         assertArrayEquals(expected, encoded);
     }
@@ -232,8 +391,40 @@ public class BluetoothLeEddystoneEncoderDecoderImplTest {
 
         byte[] encoded = encoder.encode(beacon);
 
-        byte[] expected = { 30, 2, 1, 31, 3, 3, (byte) 0xAA, (byte) 0xFE, 22, 22, (byte) 0xAA, (byte) 0xFE, 16, -127, 2,
-                104, 116, 116, 112, 58, 47, 47, 101, 117, 114, 111, 116, 101, 99, 104, 7, 0 };
+        byte[] expected = {
+            30,
+            2,
+            1,
+            31,
+            3,
+            3,
+            (byte) 0xAA,
+            (byte) 0xFE,
+            22,
+            22,
+            (byte) 0xAA,
+            (byte) 0xFE,
+            16,
+            -127,
+            2,
+            104,
+            116,
+            116,
+            112,
+            58,
+            47,
+            47,
+            101,
+            117,
+            114,
+            111,
+            116,
+            101,
+            99,
+            104,
+            7,
+            0
+        };
 
         assertArrayEquals(expected, encoded);
     }
@@ -253,7 +444,7 @@ public class BluetoothLeEddystoneEncoderDecoderImplTest {
 
         byte[] encoded = encoder.encode(beacon);
 
-        byte[] expected = { 0 };
+        byte[] expected = {0};
 
         assertArrayEquals(expected, encoded);
     }
@@ -273,7 +464,7 @@ public class BluetoothLeEddystoneEncoderDecoderImplTest {
 
         byte[] encoded = encoder.encode(beacon);
 
-        byte[] expected = { 0 };
+        byte[] expected = {0};
 
         assertArrayEquals(expected, encoded);
     }
@@ -299,14 +490,42 @@ public class BluetoothLeEddystoneEncoderDecoderImplTest {
         beacon.setLeLimited(true);
         beacon.setTxPower((short) 50);
 
-        byte[] encoded = { 1, 0x1F, 32, 3, (byte) 0xAA, (byte) 0xFE, 22, 22, (byte) 0xAA, (byte) 0xFE, 0, 50, 0, 1, 2,
-                3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5 };
+        byte[] encoded = {
+            1,
+            0x1F,
+            32,
+            3,
+            (byte) 0xAA,
+            (byte) 0xFE,
+            22,
+            22,
+            (byte) 0xAA,
+            (byte) 0xFE,
+            0,
+            50,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+        };
 
         BluetoothLeEddystoneDecoderImpl decoder = new BluetoothLeEddystoneDecoderImpl();
         BluetoothLeEddystone decoded = decoder.decode(encoded);
 
-        byte[] namespace = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-        byte[] instance = { 0, 1, 2, 3, 4, 5 };
+        byte[] namespace = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+        byte[] instance = {0, 1, 2, 3, 4, 5};
 
         assertEquals(50, decoded.getTxPower());
         assertEquals(EddystoneFrameType.UID.name(), decoded.getFrameType());
@@ -324,8 +543,37 @@ public class BluetoothLeEddystoneEncoderDecoderImplTest {
         beacon.setLeLimited(true);
         beacon.setTxPower((short) 50);
 
-        byte[] encoded = { 1, 0x1F, 32, 3, (byte) 0xAA, (byte) 0xFE, 22, 22, (byte) 0xAA, (byte) 0xFE, 16, 50, 2, 104,
-                116, 116, 112, 58, 47, 47, 101, 117, 114, 111, 116, 101, 99, 104, 7 };
+        byte[] encoded = {
+            1,
+            0x1F,
+            32,
+            3,
+            (byte) 0xAA,
+            (byte) 0xFE,
+            22,
+            22,
+            (byte) 0xAA,
+            (byte) 0xFE,
+            16,
+            50,
+            2,
+            104,
+            116,
+            116,
+            112,
+            58,
+            47,
+            47,
+            101,
+            117,
+            114,
+            111,
+            116,
+            101,
+            99,
+            104,
+            7
+        };
 
         BluetoothLeEddystoneDecoderImpl decoder = new BluetoothLeEddystoneDecoderImpl();
         BluetoothLeEddystone decoded = decoder.decode(encoded);
@@ -346,8 +594,38 @@ public class BluetoothLeEddystoneEncoderDecoderImplTest {
         beacon.setLeLimited(true);
         beacon.setTxPower((short) 50);
 
-        byte[] encoded = { 1, 0x1F, 32, 3, (byte) 0xAA, (byte) 0xFE, 22, 22, (byte) 0xAA, (byte) 0xFE, 16, 50, 2, 104,
-                116, 116, 112, 58, 47, 47, 101, 117, 114, 111, 116, 101, 99, 104, 7, 0 }; // the last 0 is .com/
+        byte[] encoded = {
+            1,
+            0x1F,
+            32,
+            3,
+            (byte) 0xAA,
+            (byte) 0xFE,
+            22,
+            22,
+            (byte) 0xAA,
+            (byte) 0xFE,
+            16,
+            50,
+            2,
+            104,
+            116,
+            116,
+            112,
+            58,
+            47,
+            47,
+            101,
+            117,
+            114,
+            111,
+            116,
+            101,
+            99,
+            104,
+            7,
+            0
+        }; // the last 0 is .com/
 
         BluetoothLeEddystoneDecoderImpl decoder = new BluetoothLeEddystoneDecoderImpl();
         BluetoothLeEddystone decoded = decoder.decode(encoded);
@@ -368,8 +646,38 @@ public class BluetoothLeEddystoneEncoderDecoderImplTest {
         beacon.setLeLimited(true);
         beacon.setTxPower((short) 50);
 
-        byte[] encoded = { 1, 0x1F, 32, 3, (byte) 0xAA, (byte) 0xFE, 22, 22, (byte) 0xAA, (byte) 0xFE, 16, 50, 2, 104,
-                116, 116, 112, 58, 47, 47, 101, 117, 114, 111, 116, 101, 99, 104, 7, 7 }; // the last 7 is .com
+        byte[] encoded = {
+            1,
+            0x1F,
+            32,
+            3,
+            (byte) 0xAA,
+            (byte) 0xFE,
+            22,
+            22,
+            (byte) 0xAA,
+            (byte) 0xFE,
+            16,
+            50,
+            2,
+            104,
+            116,
+            116,
+            112,
+            58,
+            47,
+            47,
+            101,
+            117,
+            114,
+            111,
+            116,
+            101,
+            99,
+            104,
+            7,
+            7
+        }; // the last 7 is .com
 
         BluetoothLeEddystoneDecoderImpl decoder = new BluetoothLeEddystoneDecoderImpl();
         BluetoothLeEddystone decoded = decoder.decode(encoded);
@@ -382,13 +690,14 @@ public class BluetoothLeEddystoneEncoderDecoderImplTest {
 
     @Test
     public void testDecodeStopAt0() {
-        byte[] encoded = { 1, 0x1F, 26, 1, 76, 0, 2, 21, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 18,
-                0, 5, 0, 2, 50, 0, 0 };
+        byte[] encoded = {
+            1, 0x1F, 26, 1, 76, 0, 2, 21, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 18, 0, 5, 0, 2,
+            50, 0, 0
+        };
 
         BluetoothLeEddystoneDecoderImpl decoder = new BluetoothLeEddystoneDecoderImpl();
         BluetoothLeEddystone decoded = decoder.decode(encoded);
 
         assertNull(decoded);
     }
-
 }

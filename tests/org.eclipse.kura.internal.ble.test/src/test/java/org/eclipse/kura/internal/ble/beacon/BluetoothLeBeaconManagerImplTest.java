@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2018, 2022 Eurotech and/or its affiliates and others
- * 
+ * Copyright (c) 2018, 2026 Eurotech and/or its affiliates and others
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  ******************************************************************************/
@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
-
 import org.eclipse.kura.KuraBluetoothBeaconAdvertiserNotAvailable;
 import org.eclipse.kura.KuraBluetoothCommandException;
 import org.eclipse.kura.KuraException;
@@ -83,8 +82,9 @@ public class BluetoothLeBeaconManagerImplTest {
 
         assertNotNull(scanner);
 
-        Map<String, List<BluetoothLeBeaconScannerImpl<BluetoothLeBeacon>>> scanners = (Map<String, List<BluetoothLeBeaconScannerImpl<BluetoothLeBeacon>>>) TestUtil
-                .getFieldValue(svc, "scanners");
+        Map<String, List<BluetoothLeBeaconScannerImpl<BluetoothLeBeacon>>> scanners =
+                (Map<String, List<BluetoothLeBeaconScannerImpl<BluetoothLeBeacon>>>)
+                        TestUtil.getFieldValue(svc, "scanners");
         assertNotNull(scanners);
         assertEquals(1, scanners.size());
         assertEquals(1, scanners.get(interfaceName).size());
@@ -135,8 +135,9 @@ public class BluetoothLeBeaconManagerImplTest {
         assertNotNull(advertiser);
         assertEquals(adapter, advertiser.getAdapter());
 
-        Map<String, BluetoothLeBeaconAdvertiserImpl<BluetoothLeBeacon>> advertisers = (Map<String, BluetoothLeBeaconAdvertiserImpl<BluetoothLeBeacon>>) TestUtil
-                .getFieldValue(svc, "advertisers");
+        Map<String, BluetoothLeBeaconAdvertiserImpl<BluetoothLeBeacon>> advertisers =
+                (Map<String, BluetoothLeBeaconAdvertiserImpl<BluetoothLeBeacon>>)
+                        TestUtil.getFieldValue(svc, "advertisers");
         assertNotNull(advertisers);
         assertEquals(1, advertisers.size());
 
@@ -176,7 +177,7 @@ public class BluetoothLeBeaconManagerImplTest {
             @Override
             protected BluetoothProcess execHcitool(String intfName, String... cmd) throws IOException {
                 assertEquals(interfaceName, intfName);
-                assertArrayEquals(new String[] { "cmd", "0x08", "0x000a", "01" }, cmd);
+                assertArrayEquals(new String[] {"cmd", "0x08", "0x000a", "01"}, cmd);
 
                 visited.set(true);
 
@@ -200,7 +201,6 @@ public class BluetoothLeBeaconManagerImplTest {
         };
 
         svc.startBeaconAdvertising("devName");
-
     }
 
     @Test
@@ -213,7 +213,7 @@ public class BluetoothLeBeaconManagerImplTest {
             @Override
             protected BluetoothProcess execHcitool(String intfName, String... cmd) throws IOException {
                 assertEquals(interfaceName, intfName);
-                assertArrayEquals(new String[] { "cmd", "0x08", "0x000a", "00" }, cmd);
+                assertArrayEquals(new String[] {"cmd", "0x08", "0x000a", "00"}, cmd);
 
                 visited.set(true);
 
@@ -249,8 +249,12 @@ public class BluetoothLeBeaconManagerImplTest {
             @Override
             protected BluetoothProcess execHcitool(String intfName, String... cmd) throws IOException {
                 assertEquals(interfaceName, intfName);
-                assertArrayEquals(new String[] { "cmd", "0x08", "0x0006", "0E", "00", "0F", "00", "03", "00", "00",
-                        "00", "00", "00", "00", "00", "00", "07", "00" }, cmd);
+                assertArrayEquals(
+                        new String[] {
+                            "cmd", "0x08", "0x0006", "0E", "00", "0F", "00", "03", "00", "00", "00", "00", "00", "00",
+                            "00", "00", "07", "00"
+                        },
+                        cmd);
 
                 visited.set(true);
 
@@ -313,7 +317,7 @@ public class BluetoothLeBeaconManagerImplTest {
             @Override
             protected BluetoothProcess execHcitool(String intfName, String... cmd) throws IOException {
                 assertEquals(interfaceName, intfName);
-                assertArrayEquals(new String[] { "cmd", "0x08", "0x0008", "01", "02", "03", "04" }, cmd);
+                assertArrayEquals(new String[] {"cmd", "0x08", "0x0008", "01", "02", "03", "04"}, cmd);
 
                 visited.set(true);
 
@@ -321,10 +325,9 @@ public class BluetoothLeBeaconManagerImplTest {
             }
         };
 
-        BluetoothLeBeacon beacon = new BluetoothLeBeacon() {
-        };
+        BluetoothLeBeacon beacon = new BluetoothLeBeacon() {};
         BluetoothLeBeaconEncoder<BluetoothLeBeacon> encoder = mock(BluetoothLeBeaconEncoder.class);
-        byte[] encodedBeacon = { 1, 2, 3, 4 };
+        byte[] encodedBeacon = {1, 2, 3, 4};
         when(encoder.encode(beacon)).thenReturn(encodedBeacon);
 
         svc.updateBeaconAdvertisingData(beacon, encoder, interfaceName);
@@ -342,10 +345,9 @@ public class BluetoothLeBeaconManagerImplTest {
             }
         };
 
-        BluetoothLeBeacon beacon = new BluetoothLeBeacon() {
-        };
+        BluetoothLeBeacon beacon = new BluetoothLeBeacon() {};
         BluetoothLeBeaconEncoder<BluetoothLeBeacon> encoder = mock(BluetoothLeBeaconEncoder.class);
-        byte[] encodedBeacon = { 1, 2, 3, 4 };
+        byte[] encodedBeacon = {1, 2, 3, 4};
         when(encoder.encode(beacon)).thenReturn(encodedBeacon);
 
         svc.updateBeaconAdvertisingData(beacon, encoder, "");
@@ -387,8 +389,8 @@ public class BluetoothLeBeaconManagerImplTest {
     public void testProcessInputStreamOK() throws KuraException {
         BluetoothLeBeaconManagerImpl svc = new BluetoothLeBeaconManagerImpl();
 
-        String str = "< HCI Command: ogf 0x08, ocf 0x000a, plen 1\n  01 \n> HCI Event: 0x0e plen 4\n"
-                + "  01 0A 20 00 \n";
+        String str =
+                "< HCI Command: ogf 0x08, ocf 0x000a, plen 1\n  01 \n> HCI Event: 0x0e plen 4\n" + "  01 0A 20 00 \n";
         svc.processInputStream(str);
     }
 
@@ -396,8 +398,8 @@ public class BluetoothLeBeaconManagerImplTest {
     public void testProcessInputStreamFail01() throws KuraException {
         BluetoothLeBeaconManagerImpl svc = new BluetoothLeBeaconManagerImpl();
 
-        String str = "< HCI Command: ogf 0x08, ocf 0x000a, plen 1\n  01 \n> HCI Event: 0x0e plen 4\n"
-                + "  01 0A 20 01 \n";
+        String str =
+                "< HCI Command: ogf 0x08, ocf 0x000a, plen 1\n  01 \n> HCI Event: 0x0e plen 4\n" + "  01 0A 20 01 \n";
         try {
             svc.processInputStream(str);
             fail("Exception was expected.");
@@ -410,8 +412,8 @@ public class BluetoothLeBeaconManagerImplTest {
     public void testProcessInputStreamFail03() throws KuraException {
         BluetoothLeBeaconManagerImpl svc = new BluetoothLeBeaconManagerImpl();
 
-        String str = "< HCI Command: ogf 0x08, ocf 0x000a, plen 1\n  01 \n> HCI Event: 0x0e plen 4\n"
-                + "  01 0A 20 03 \n";
+        String str =
+                "< HCI Command: ogf 0x08, ocf 0x000a, plen 1\n  01 \n> HCI Event: 0x0e plen 4\n" + "  01 0A 20 03 \n";
         try {
             svc.processInputStream(str);
             fail("Exception was expected.");
@@ -424,20 +426,19 @@ public class BluetoothLeBeaconManagerImplTest {
     public void testProcessInputStreamFail0c() throws KuraException {
         BluetoothLeBeaconManagerImpl svc = new BluetoothLeBeaconManagerImpl();
 
-        String str = "< HCI Command: ogf 0x08, ocf 0x000a, plen 1\n  01 \n> HCI Event: 0x0e plen 4\n"
-                + "  01 0A 20 0C \n";
+        String str =
+                "< HCI Command: ogf 0x08, ocf 0x000a, plen 1\n  01 \n> HCI Event: 0x0e plen 4\n" + "  01 0A 20 0C \n";
 
         // no exception here!
         svc.processInputStream(str);
-
     }
 
     @Test
     public void testProcessInputStreamFail11() throws KuraException {
         BluetoothLeBeaconManagerImpl svc = new BluetoothLeBeaconManagerImpl();
 
-        String str = "< HCI Command: ogf 0x08, ocf 0x000a, plen 1\n  01 \n> HCI Event: 0x0e plen 4\n"
-                + "  01 0A 20 11 \n";
+        String str =
+                "< HCI Command: ogf 0x08, ocf 0x000a, plen 1\n  01 \n> HCI Event: 0x0e plen 4\n" + "  01 0A 20 11 \n";
         try {
             svc.processInputStream(str);
             fail("Exception was expected.");
@@ -450,8 +451,8 @@ public class BluetoothLeBeaconManagerImplTest {
     public void testProcessInputStreamFail12() throws KuraException {
         BluetoothLeBeaconManagerImpl svc = new BluetoothLeBeaconManagerImpl();
 
-        String str = "< HCI Command: ogf 0x08, ocf 0x000a, plen 1\n  01 \n> HCI Event: 0x0e plen 4\n"
-                + "  01 0A 20 12 \n";
+        String str =
+                "< HCI Command: ogf 0x08, ocf 0x000a, plen 1\n  01 \n> HCI Event: 0x0e plen 4\n" + "  01 0A 20 12 \n";
         try {
             svc.processInputStream(str);
             fail("Exception was expected.");
@@ -464,8 +465,8 @@ public class BluetoothLeBeaconManagerImplTest {
     public void testProcessInputStreamFail14() throws KuraException {
         BluetoothLeBeaconManagerImpl svc = new BluetoothLeBeaconManagerImpl();
 
-        String str = "< HCI Command: ogf 0x08, ocf 0x000a, plen 1\n  01 \n> HCI Event: 0x0e plen 4\n"
-                + "  01 0A 20 14 \n";
+        String str =
+                "< HCI Command: ogf 0x08, ocf 0x000a, plen 1\n  01 \n> HCI Event: 0x0e plen 4\n" + "  01 0A 20 14 \n";
         try {
             svc.processInputStream(str);
             fail("Exception was expected.");
@@ -571,7 +572,6 @@ public class BluetoothLeBeaconManagerImplTest {
 
         verify(hProc, times(1)).destroy();
         verify(dProc, times(1)).destroyBTSnoop();
-
     }
 
     @Test
@@ -610,7 +610,6 @@ public class BluetoothLeBeaconManagerImplTest {
         assertEquals(interfaceName, dProc.toString());
 
         verify(dProc, times(1)).destroyBTSnoop();
-
     }
 
     @Test(expected = NullPointerException.class)
@@ -650,15 +649,14 @@ public class BluetoothLeBeaconManagerImplTest {
         when(ssMock.isLegacyBluetoothBeaconScan()).thenReturn(true);
         svc.setSystemService(ssMock);
 
-        BluetoothLeBeacon beacon = new BluetoothLeBeacon() {
-        };
-        when(decoder.decode(new byte[] { 12, 10 })).thenReturn(beacon); // record data
+        BluetoothLeBeacon beacon = new BluetoothLeBeacon() {};
+        when(decoder.decode(new byte[] {12, 10})).thenReturn(beacon); // record data
 
         String interfaceName = "devName";
         when(adapter.getInterfaceName()).thenReturn(interfaceName);
 
         when(decoder.getBeaconType()).thenReturn((Class<BluetoothLeBeacon>) beacon.getClass()); // for beacons stream
-                                                                                                // filter
+        // filter
 
         AtomicBoolean visited = new AtomicBoolean(false);
         BluetoothLeBeaconListener<BluetoothLeBeacon> listener = new BluetoothLeBeaconListener<BluetoothLeBeacon>() {
@@ -670,8 +668,9 @@ public class BluetoothLeBeaconManagerImplTest {
             }
         };
 
-        Map<String, List<BluetoothLeBeaconScannerImpl<BluetoothLeBeacon>>> listeners = (Map<String, List<BluetoothLeBeaconScannerImpl<BluetoothLeBeacon>>>) TestUtil
-                .getFieldValue(svc, "listeners");
+        Map<String, List<BluetoothLeBeaconScannerImpl<BluetoothLeBeacon>>> listeners =
+                (Map<String, List<BluetoothLeBeaconScannerImpl<BluetoothLeBeacon>>>)
+                        TestUtil.getFieldValue(svc, "listeners");
 
         BluetoothLeBeaconScanner<BluetoothLeBeacon> scanner = svc.newBeaconScanner(adapter, decoder);
         scanner.addBeaconListener(listener);
@@ -682,21 +681,33 @@ public class BluetoothLeBeaconManagerImplTest {
 
         // snooping only works on running scanners
         new Thread(() -> {
-            try {
-                scanner.startBeaconScan(1);
-            } catch (KuraBluetoothCommandException e) {
-                // won't happen
-            }
-        }).start();
+                    try {
+                        scanner.startBeaconScan(1);
+                    } catch (KuraBluetoothCommandException e) {
+                        // won't happen
+                    }
+                })
+                .start();
 
         Thread.sleep(20); // allow scanner to start
 
-        byte[] record = { 0x3e, 0x0, 0x02, 0x1, // advertisement packet and subevent, 1 record
-                0x4, 0x1, // scan response and random address
-                1, 2, 3, 4, 5, 6, // address
-                2, // data length - 2
-                12, 10, // data
-                123 // rssi
+        byte[] record = {
+            0x3e,
+            0x0,
+            0x02,
+            0x1, // advertisement packet and subevent, 1 record
+            0x4,
+            0x1, // scan response and random address
+            1,
+            2,
+            3,
+            4,
+            5,
+            6, // address
+            2, // data length - 2
+            12,
+            10, // data
+            123 // rssi
         };
         svc.processBTSnoopRecord(record);
 

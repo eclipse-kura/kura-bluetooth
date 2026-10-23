@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2018, 2022 Eurotech and/or its affiliates and others
- * 
+ * Copyright (c) 2018, 2026 Eurotech and/or its affiliates and others
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  ******************************************************************************/
@@ -27,9 +27,7 @@ import org.eclipse.kura.bluetooth.le.BluetoothLeAdapter;
 import org.eclipse.kura.bluetooth.le.beacon.BluetoothLeBeaconAdvertiser;
 import org.eclipse.kura.bluetooth.le.beacon.BluetoothLeBeaconManager;
 import org.eclipse.kura.bluetooth.le.beacon.BluetoothLeBeaconScanner;
-import org.eclipse.kura.internal.ble.eddystone.BluetoothLeEddystoneServiceImpl;
 import org.junit.Test;
-
 
 public class BluetoothLeEddystoneServiceImplTest {
 
@@ -80,5 +78,4 @@ public class BluetoothLeEddystoneServiceImplTest {
 
         svc.deactivate(null);
     }
-
 }

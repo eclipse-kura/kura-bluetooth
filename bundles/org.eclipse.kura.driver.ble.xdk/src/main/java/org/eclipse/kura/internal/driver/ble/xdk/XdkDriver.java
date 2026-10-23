@@ -1,12 +1,12 @@
 /**
- * Copyright (c) 2019, 2020 Eurotech and/or its affiliates and others
- * 
+ * Copyright (c) 2019, 2026 Eurotech and/or its affiliates and others
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  */
@@ -29,7 +29,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-
 import org.eclipse.kura.KuraBluetoothIOException;
 import org.eclipse.kura.KuraException;
 import org.eclipse.kura.bluetooth.le.BluetoothLeAdapter;
@@ -158,7 +157,6 @@ public class XdkDriver implements Driver, ConfigurableComponent {
             xdk.init();
 
             xdk.startSensor(this.enableQuaternion, this.configSampleRate);
-
         }
     }
 
@@ -186,22 +184,23 @@ public class XdkDriver implements Driver, ConfigurableComponent {
     public static Optional<TypedValue<?>> getTypedValue(final DataType expectedValueType, final Object containedValue) {
         try {
             switch (expectedValueType) {
-            case LONG:
-                return Optional.of(TypedValues.newLongValue((long) Double.parseDouble(containedValue.toString())));
-            case FLOAT:
-                return Optional.of(TypedValues.newFloatValue(Float.parseFloat(containedValue.toString())));
-            case DOUBLE:
-                return Optional.of(TypedValues.newDoubleValue(Double.parseDouble(containedValue.toString())));
-            case INTEGER:
-                return Optional.of(TypedValues.newIntegerValue((int) Double.parseDouble(containedValue.toString())));
-            case BOOLEAN:
-                return Optional.of(TypedValues.newBooleanValue(Boolean.parseBoolean(containedValue.toString())));
-            case STRING:
-                return Optional.of(TypedValues.newStringValue(containedValue.toString()));
-            case BYTE_ARRAY:
-                return Optional.of(TypedValues.newByteArrayValue(TypeUtil.objectToByteArray(containedValue)));
-            default:
-                return Optional.empty();
+                case LONG:
+                    return Optional.of(TypedValues.newLongValue((long) Double.parseDouble(containedValue.toString())));
+                case FLOAT:
+                    return Optional.of(TypedValues.newFloatValue(Float.parseFloat(containedValue.toString())));
+                case DOUBLE:
+                    return Optional.of(TypedValues.newDoubleValue(Double.parseDouble(containedValue.toString())));
+                case INTEGER:
+                    return Optional.of(
+                            TypedValues.newIntegerValue((int) Double.parseDouble(containedValue.toString())));
+                case BOOLEAN:
+                    return Optional.of(TypedValues.newBooleanValue(Boolean.parseBoolean(containedValue.toString())));
+                case STRING:
+                    return Optional.of(TypedValues.newStringValue(containedValue.toString()));
+                case BYTE_ARRAY:
+                    return Optional.of(TypedValues.newByteArrayValue(TypeUtil.objectToByteArray(containedValue)));
+                default:
+                    return Optional.empty();
             }
         } catch (final Exception ex) {
             logger.error("Error while converting the retrieved value to the defined typed", ex);
@@ -214,12 +213,13 @@ public class XdkDriver implements Driver, ConfigurableComponent {
         ChannelRecord record = requestInfo.channelRecord;
         try {
             Xdk xdk = getXdk(requestInfo.xdkAddress);
-            if (xdk.isConnected()) { /* Read the data */
+            if (xdk.isConnected()) {
+                /* Read the data */
                 Object readResult = getReadResult(requestInfo.sensorName, xdk);
                 final Optional<TypedValue<?>> typedValue = getTypedValue(requestInfo.dataType, readResult);
                 if (!typedValue.isPresent()) {
-                    record.setChannelStatus(new ChannelStatus(FAILURE,
-                            "Error while converting the retrieved value to the defined typed", null));
+                    record.setChannelStatus(new ChannelStatus(
+                            FAILURE, "Error while converting the retrieved value to the defined typed", null));
                     record.setTimestamp(System.currentTimeMillis());
                     return;
                 }
@@ -240,57 +240,57 @@ public class XdkDriver implements Driver, ConfigurableComponent {
     private Object getReadResult(SensorName sensorName, Xdk xdk) throws KuraBluetoothIOException {
 
         switch (sensorName) {
-        // High Priority Data
-        case ACCELERATION_X:
-            return xdk.readHighData()[0];
-        case ACCELERATION_Y:
-            return xdk.readHighData()[1];
-        case ACCELERATION_Z:
-            return xdk.readHighData()[2];
-        case GYROSCOPE_X:
-            return xdk.readHighData()[3];
-        case GYROSCOPE_Y:
-            return xdk.readHighData()[4];
-        case GYROSCOPE_Z:
-            return xdk.readHighData()[5];
-        // Low Priority Data - Message 1
-        case LIGHT:
-            return xdk.readLowData(MESSAGE_ONE)[0];
-        case NOISE:
-            return xdk.readLowData(MESSAGE_ONE)[1];
-        case PRESSURE:
-            return xdk.readLowData(MESSAGE_ONE)[2];
-        case TEMPERATURE:
-            return xdk.readLowData(MESSAGE_ONE)[3];
-        case HUMIDITY:
-            return xdk.readLowData(MESSAGE_ONE)[4];
-        case SD_CARD_DETECT_STATUS:
-            return xdk.readLowData(MESSAGE_ONE)[5];
-        case BUTTON_STATUS:
-            return xdk.readLowData(MESSAGE_ONE)[6];
-        // Low Priority Data - Message 2
-        case MAGNETIC_X:
-            return xdk.readLowData(MESSAGE_TWO)[0];
-        case MAGNETIC_Y:
-            return xdk.readLowData(MESSAGE_TWO)[1];
-        case MAGNETIC_Z:
-            return xdk.readLowData(MESSAGE_TWO)[2];
-        case MAGNETOMETER_RESISTANCE:
-            return xdk.readLowData(MESSAGE_TWO)[3];
-        case LED_STATUS:
-            return xdk.readLowData(MESSAGE_TWO)[4];
-        case VOLTAGE_LEM:
-            return xdk.readLowData(MESSAGE_TWO)[5];
-        case QUATERNION_M:
-            return xdk.readHighData()[6];
-        case QUATERNION_X:
-            return xdk.readHighData()[7];
-        case QUATERNION_Y:
-            return xdk.readHighData()[8];
-        case QUATERNION_Z:
-            return xdk.readHighData()[9];
-        default:
-            throw new KuraBluetoothIOException("Read is unsupported for sensor " + sensorName.toString());
+            // High Priority Data
+            case ACCELERATION_X:
+                return xdk.readHighData()[0];
+            case ACCELERATION_Y:
+                return xdk.readHighData()[1];
+            case ACCELERATION_Z:
+                return xdk.readHighData()[2];
+            case GYROSCOPE_X:
+                return xdk.readHighData()[3];
+            case GYROSCOPE_Y:
+                return xdk.readHighData()[4];
+            case GYROSCOPE_Z:
+                return xdk.readHighData()[5];
+            // Low Priority Data - Message 1
+            case LIGHT:
+                return xdk.readLowData(MESSAGE_ONE)[0];
+            case NOISE:
+                return xdk.readLowData(MESSAGE_ONE)[1];
+            case PRESSURE:
+                return xdk.readLowData(MESSAGE_ONE)[2];
+            case TEMPERATURE:
+                return xdk.readLowData(MESSAGE_ONE)[3];
+            case HUMIDITY:
+                return xdk.readLowData(MESSAGE_ONE)[4];
+            case SD_CARD_DETECT_STATUS:
+                return xdk.readLowData(MESSAGE_ONE)[5];
+            case BUTTON_STATUS:
+                return xdk.readLowData(MESSAGE_ONE)[6];
+            // Low Priority Data - Message 2
+            case MAGNETIC_X:
+                return xdk.readLowData(MESSAGE_TWO)[0];
+            case MAGNETIC_Y:
+                return xdk.readLowData(MESSAGE_TWO)[1];
+            case MAGNETIC_Z:
+                return xdk.readLowData(MESSAGE_TWO)[2];
+            case MAGNETOMETER_RESISTANCE:
+                return xdk.readLowData(MESSAGE_TWO)[3];
+            case LED_STATUS:
+                return xdk.readLowData(MESSAGE_TWO)[4];
+            case VOLTAGE_LEM:
+                return xdk.readLowData(MESSAGE_TWO)[5];
+            case QUATERNION_M:
+                return xdk.readHighData()[6];
+            case QUATERNION_X:
+                return xdk.readHighData()[7];
+            case QUATERNION_Y:
+                return xdk.readHighData()[8];
+            case QUATERNION_Z:
+                return xdk.readHighData()[9];
+            default:
+                throw new KuraBluetoothIOException("Read is unsupported for sensor " + sensorName.toString());
         }
     }
 
@@ -335,8 +335,8 @@ public class XdkDriver implements Driver, ConfigurableComponent {
         try {
             Xdk xdk = getXdk(XdkChannelDescriptor.getXdkAddress(channelConfig));
             if (xdk.isConnected()) {
-                SensorListener sensorListener = getSensorListener(xdk,
-                        XdkChannelDescriptor.getSensorName(channelConfig).toString());
+                SensorListener sensorListener = getSensorListener(
+                        xdk, XdkChannelDescriptor.getSensorName(channelConfig).toString());
                 sensorListener.addChannelName((String) channelConfig.get("+name"));
                 sensorListener.addDataType(DataType.getDataType((String) channelConfig.get("+value.type")));
                 sensorListener.addListener(listener);
@@ -365,7 +365,6 @@ public class XdkDriver implements Driver, ConfigurableComponent {
                 }
             }
         }
-
     }
 
     @Override
@@ -380,7 +379,10 @@ public class XdkDriver implements Driver, ConfigurableComponent {
         private final SensorName sensorName;
         private final ChannelRecord channelRecord;
 
-        public XdkRequestInfo(final ChannelRecord channelRecord, final DataType dataType, final String xdkAddress,
+        public XdkRequestInfo(
+                final ChannelRecord channelRecord,
+                final DataType dataType,
+                final String xdkAddress,
                 final SensorName sensorName) {
             this.dataType = dataType;
             this.xdkAddress = xdkAddress;
@@ -444,42 +446,43 @@ public class XdkDriver implements Driver, ConfigurableComponent {
             connect(sensorListener.getXdk());
         }
         switch (sensorListener.getSensorType()) {
-        case "ACCELERATION_X":
-        case "ACCELERATION_Y":
-        case "ACCELERATION_Z":
-        case "GYROSCOPE_X":
-        case "GYROSCOPE_Y":
-        case "GYROSCOPE_Z":
-        case "QUATERNION_M":
-        case "QUATERNION_X":
-        case "QUATERNION_Y":
-        case "QUATERNION_Z":
-            sensorListener.getXdk().disableHighNotifications();
-            sensorListener.getXdk().enableHighNotifications(SensorListener.getSensorConsumer(sensorListener));
-            break;
-        case "LIGHT":
-        case "NOISE":
-        case "PRESSURE":
-        case "TEMPERATURE":
-        case "HUMIDITY":
-        case "SD_CARD_DETECT_STATUS":
-        case "BUTTON_STATUS":
-            sensorListener.getXdk().disableLowNotifications();
-            sensorListener.getXdk().enableLowNotifications(SensorListener.getSensorConsumer(sensorListener),
-                    MESSAGE_ONE);
-            break;
-        case "MAGNETIC_X":
-        case "MAGNETIC_Y":
-        case "MAGNETIC_Z":
-        case "MAGNETOMETER_RESISTENCE":
-        case "LED_STATUS":
-        case "VOLTAGE_LEM":
-            sensorListener.getXdk().disableLowNotifications();
-            sensorListener.getXdk().enableLowNotifications(SensorListener.getSensorConsumer(sensorListener),
-                    MESSAGE_TWO);
-            break;
-        default:
-
+            case "ACCELERATION_X":
+            case "ACCELERATION_Y":
+            case "ACCELERATION_Z":
+            case "GYROSCOPE_X":
+            case "GYROSCOPE_Y":
+            case "GYROSCOPE_Z":
+            case "QUATERNION_M":
+            case "QUATERNION_X":
+            case "QUATERNION_Y":
+            case "QUATERNION_Z":
+                sensorListener.getXdk().disableHighNotifications();
+                sensorListener.getXdk().enableHighNotifications(SensorListener.getSensorConsumer(sensorListener));
+                break;
+            case "LIGHT":
+            case "NOISE":
+            case "PRESSURE":
+            case "TEMPERATURE":
+            case "HUMIDITY":
+            case "SD_CARD_DETECT_STATUS":
+            case "BUTTON_STATUS":
+                sensorListener.getXdk().disableLowNotifications();
+                sensorListener
+                        .getXdk()
+                        .enableLowNotifications(SensorListener.getSensorConsumer(sensorListener), MESSAGE_ONE);
+                break;
+            case "MAGNETIC_X":
+            case "MAGNETIC_Y":
+            case "MAGNETIC_Z":
+            case "MAGNETOMETER_RESISTENCE":
+            case "LED_STATUS":
+            case "VOLTAGE_LEM":
+                sensorListener.getXdk().disableLowNotifications();
+                sensorListener
+                        .getXdk()
+                        .enableLowNotifications(SensorListener.getSensorConsumer(sensorListener), MESSAGE_TWO);
+                break;
+            default:
         }
     }
 
