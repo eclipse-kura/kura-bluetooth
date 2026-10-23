@@ -12,6 +12,9 @@
  *******************************************************************************/
 package org.eclipse.kura.internal.ble;
 
+import com.github.hypfvieh.bluetooth.DeviceManager;
+import com.github.hypfvieh.bluetooth.wrapper.BluetoothGattCharacteristic;
+import com.github.hypfvieh.bluetooth.wrapper.BluetoothGattDescriptor;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -20,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
-
 import org.eclipse.kura.KuraBluetoothIOException;
 import org.eclipse.kura.KuraBluetoothNotificationException;
 import org.eclipse.kura.KuraBluetoothResourceNotFoundException;
@@ -32,10 +34,6 @@ import org.freedesktop.dbus.exceptions.DBusException;
 import org.freedesktop.dbus.handlers.AbstractPropertiesChangedHandler;
 import org.freedesktop.dbus.interfaces.Properties.PropertiesChanged;
 import org.freedesktop.dbus.types.Variant;
-
-import com.github.hypfvieh.bluetooth.DeviceManager;
-import com.github.hypfvieh.bluetooth.wrapper.BluetoothGattCharacteristic;
-import com.github.hypfvieh.bluetooth.wrapper.BluetoothGattDescriptor;
 
 public class BluetoothLeGattCharacteristicImpl implements BluetoothLeGattCharacteristic {
 
@@ -90,7 +88,6 @@ public class BluetoothLeGattCharacteristicImpl implements BluetoothLeGattCharact
             public void handle(PropertiesChanged props) {
                 handleValueNotification(callback, props);
             }
-
         };
         handlers.add(handler);
         try {
@@ -107,9 +104,11 @@ public class BluetoothLeGattCharacteristicImpl implements BluetoothLeGattCharact
                 return;
             }
 
-            for (Map.Entry<String, Variant<?>> entry : props.getPropertiesChanged().entrySet()) {
+            for (Map.Entry<String, Variant<?>> entry :
+                    props.getPropertiesChanged().entrySet()) {
                 if (entry.getKey().equals("Value")) {
-                    byte[] value = (byte[]) props.getPropertiesChanged().get("Value").getValue();
+                    byte[] value =
+                            (byte[]) props.getPropertiesChanged().get("Value").getValue();
                     if (value != null) {
                         callback.accept(value);
                     }
@@ -122,7 +121,7 @@ public class BluetoothLeGattCharacteristicImpl implements BluetoothLeGattCharact
     public void disableValueNotifications() throws KuraBluetoothNotificationException {
         try {
             this.characteristic.stopNotify();
-            for (Iterator<AbstractPropertiesChangedHandler> it = handlers.iterator(); it.hasNext();) {
+            for (Iterator<AbstractPropertiesChangedHandler> it = handlers.iterator(); it.hasNext(); ) {
                 AbstractPropertiesChangedHandler handler = it.next();
                 getDeviceManager().unRegisterPropertyHandler(handler);
                 it.remove();
@@ -173,7 +172,8 @@ public class BluetoothLeGattCharacteristicImpl implements BluetoothLeGattCharact
     public List<BluetoothLeGattCharacteristicProperties> getProperties() {
         List<BluetoothLeGattCharacteristicProperties> properties = new ArrayList<>();
         for (String flag : this.characteristic.getFlags()) {
-            properties.add(BluetoothLeGattCharacteristicProperties.valueOf(flag.toUpperCase().replace('-', '_')));
+            properties.add(BluetoothLeGattCharacteristicProperties.valueOf(
+                    flag.toUpperCase().replace('-', '_')));
         }
         return properties;
     }

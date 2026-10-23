@@ -1,12 +1,12 @@
 /**
  * Copyright (c) 2018, 2020 Eurotech and/or its affiliates and others
- * 
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  */
@@ -26,7 +26,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-
 import org.eclipse.kura.KuraErrorCode;
 import org.eclipse.kura.KuraException;
 import org.eclipse.kura.KuraRuntimeException;
@@ -157,8 +156,8 @@ public final class EddystoneDriver
             if (!this.bluetoothLeAdapter.isPowered()) {
                 this.bluetoothLeAdapter.setPowered(true);
             }
-            this.bluetoothLeEddystoneScanner = this.bluetoothLeEddystoneService
-                    .newBeaconScanner(this.bluetoothLeAdapter);
+            this.bluetoothLeEddystoneScanner =
+                    this.bluetoothLeEddystoneService.newBeaconScanner(this.bluetoothLeAdapter);
             this.bluetoothLeEddystoneScanner.addBeaconListener(this);
             this.worker = Executors.newSingleThreadScheduledExecutor();
             // Setup a task that monitor the scan every 30 seconds
@@ -256,10 +255,11 @@ public final class EddystoneDriver
     public void onBeaconsReceived(BluetoothLeEddystone eddystone) {
 
         for (EddystoneListener eddystoneListener : this.eddystoneListeners) {
-            if (eddystoneListener.getEddystoneFrameType()
+            if (eddystoneListener
+                    .getEddystoneFrameType()
                     .equals(EddystoneFrameType.valueOf(eddystone.getFrameType()))) {
-                ChannelRecord record = ChannelRecord.createReadRecord(eddystoneListener.getChannelName(),
-                        DataType.STRING);
+                ChannelRecord record =
+                        ChannelRecord.createReadRecord(eddystoneListener.getChannelName(), DataType.STRING);
 
                 record.setValue(TypedValues.newStringValue(eddystoneToString(eddystone)));
                 record.setChannelStatus(new ChannelStatus(SUCCESS));
@@ -267,7 +267,6 @@ public final class EddystoneDriver
                 eddystoneListener.getListener().onChannelEvent(new ChannelEvent(record));
             }
         }
-
     }
 
     private String eddystoneToString(BluetoothLeEddystone eddystone) {
@@ -306,5 +305,4 @@ public final class EddystoneDriver
         }
         return sb.toString();
     }
-
 }

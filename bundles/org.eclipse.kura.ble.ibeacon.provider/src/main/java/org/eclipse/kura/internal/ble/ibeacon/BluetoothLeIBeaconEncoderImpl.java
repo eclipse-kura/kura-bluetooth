@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2017, 2020 Eurotech and/or its affiliates and others
- * 
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  *******************************************************************************/
@@ -14,7 +14,6 @@ package org.eclipse.kura.internal.ble.ibeacon;
 
 import java.nio.ByteBuffer;
 import java.util.UUID;
-
 import org.eclipse.kura.ble.ibeacon.BluetoothLeIBeacon;
 import org.eclipse.kura.ble.ibeacon.BluetoothLeIBeaconEncoder;
 import org.eclipse.kura.bluetooth.le.beacon.BluetoothLeBeacon;
@@ -29,8 +28,8 @@ public class BluetoothLeIBeaconEncoderImpl implements BluetoothLeIBeaconEncoder 
     private static final byte PKT_BYTES_NUMBER = (byte) 0x1e;
     private static final byte PAYLOAD_BYTES_NUMBER = (byte) 0x1a;
     private static final byte MANUFACTURER_AD = (byte) 0xff;
-    private static final byte[] BEACON_ID = { (byte) 0x02, (byte) 0x15 };
-    private static final byte[] COMPANY_CODE = { (byte) 0x00, (byte) 0x4c };
+    private static final byte[] BEACON_ID = {(byte) 0x02, (byte) 0x15};
+    private static final byte[] COMPANY_CODE = {(byte) 0x00, (byte) 0x4c};
     private static final short TX_POWER_MAX = 126;
     private static final short TX_POWER_MIN = -127;
 

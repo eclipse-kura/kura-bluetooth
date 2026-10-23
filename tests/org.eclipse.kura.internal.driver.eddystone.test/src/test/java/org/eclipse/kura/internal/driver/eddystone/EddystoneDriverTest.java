@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2018, 2020 Eurotech and/or its affiliates and others
- * 
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  ******************************************************************************/
@@ -27,7 +27,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.eclipse.kura.ble.eddystone.BluetoothLeEddystone;
 import org.eclipse.kura.ble.eddystone.BluetoothLeEddystoneService;
 import org.eclipse.kura.bluetooth.le.BluetoothLeAdapter;
@@ -89,7 +88,10 @@ public class EddystoneDriverTest {
 
         @SuppressWarnings("unchecked")
         BluetoothLeBeaconScanner<BluetoothLeEddystone> eddystoneScannerMock = mock(BluetoothLeBeaconScanner.class);
-        when(eddystoneScannerMock.isScanning()).thenReturn(true).thenReturn(false).thenReturn(true);
+        when(eddystoneScannerMock.isScanning())
+                .thenReturn(true)
+                .thenReturn(false)
+                .thenReturn(true);
 
         BluetoothLeEddystoneService eddystoneServiceMock = mock(BluetoothLeEddystoneService.class);
         when(eddystoneServiceMock.newBeaconScanner(adapterMock)).thenReturn(eddystoneScannerMock);
@@ -185,8 +187,8 @@ public class EddystoneDriverTest {
         uidRecord.setChannelConfig(uidConfig);
         records.add(uidRecord);
 
-        ChannelListener uidListener = event -> assertTrue(
-                "UID;0001020304050607090A;000102030405;-10;0;0.31622776601683794"
+        ChannelListener uidListener =
+                event -> assertTrue("UID;0001020304050607090A;000102030405;-10;0;0.31622776601683794"
                         .equals(((StringValue) event.getChannelRecord().getValue()).getValue()));
 
         svc.registerChannelListener(urlConfig, urlListener);
@@ -198,8 +200,8 @@ public class EddystoneDriverTest {
         svc.onBeaconsReceived(eddystoneURL);
 
         BluetoothLeEddystone eddystoneUID = new BluetoothLeEddystone();
-        byte[] namespace = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x09, 0x0A };
-        byte[] instance = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05 };
+        byte[] namespace = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x09, 0x0A};
+        byte[] instance = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05};
         eddystoneUID.configureEddystoneUIDFrame(namespace, instance, (short) -10);
         svc.onBeaconsReceived(eddystoneUID);
 
@@ -220,10 +222,8 @@ public class EddystoneDriverTest {
     @Test
     public void testEddystoneListenerEquality() {
 
-        ChannelListener urlListener = event -> {
-        };
-        ChannelListener uidListener = event -> {
-        };
+        ChannelListener urlListener = event -> {};
+        ChannelListener uidListener = event -> {};
 
         EddystoneListener listenerURL = new EddystoneListener(null, urlListener, EddystoneFrameType.URL);
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021, 2026 Eurotech and/or its affiliates and others
- * 
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  ******************************************************************************/
@@ -19,10 +19,14 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.github.hypfvieh.bluetooth.DeviceManager;
+import com.github.hypfvieh.bluetooth.wrapper.BluetoothDevice;
+import com.github.hypfvieh.bluetooth.wrapper.BluetoothGattCharacteristic;
+import com.github.hypfvieh.bluetooth.wrapper.BluetoothGattDescriptor;
+import com.github.hypfvieh.bluetooth.wrapper.BluetoothGattService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
 import org.eclipse.kura.KuraBluetoothIOException;
 import org.eclipse.kura.KuraBluetoothNotificationException;
 import org.eclipse.kura.KuraBluetoothResourceNotFoundException;
@@ -31,17 +35,11 @@ import org.freedesktop.dbus.exceptions.DBusException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.github.hypfvieh.bluetooth.DeviceManager;
-import com.github.hypfvieh.bluetooth.wrapper.BluetoothDevice;
-import com.github.hypfvieh.bluetooth.wrapper.BluetoothGattCharacteristic;
-import com.github.hypfvieh.bluetooth.wrapper.BluetoothGattDescriptor;
-import com.github.hypfvieh.bluetooth.wrapper.BluetoothGattService;
-
 public class BluetoothLeGattCharacteristicImplTest {
 
     private static BluetoothLeGattCharacteristicImpl bluetoothLeGattCharacteristic;
     private static BluetoothGattCharacteristic charMock;
-    private static byte[] value = { 0x04, 0x05 };
+    private static byte[] value = {0x04, 0x05};
 
     @BeforeClass
     public static void setup() throws DBusException {
@@ -51,18 +49,19 @@ public class BluetoothLeGattCharacteristicImplTest {
         when(deviceMock.getAddress()).thenReturn("AA:BB:CC:DD:EE:FF");
         BluetoothGattService service = new BluetoothGattService(null, deviceMock, null, null);
         when(charMock.getService()).thenReturn(service);
-        when(charMock.getValue()).thenReturn(new byte[] { 0x00, 0x01 });
+        when(charMock.getValue()).thenReturn(new byte[] {0x00, 0x01});
         when(charMock.isNotifying()).thenReturn(false);
         List<String> properties = new ArrayList<>();
         properties.add("broadcast");
         when(charMock.getFlags()).thenReturn(properties);
         BluetoothGattDescriptor descriptor = mock(BluetoothGattDescriptor.class);
         when(descriptor.getUuid()).thenReturn("6a5a83dc-8ca7-11eb-8dcd-0242ac130003");
-        when(charMock.getGattDescriptorByUuid("6a5a83dc-8ca7-11eb-8dcd-0242ac130003")).thenReturn(descriptor);
+        when(charMock.getGattDescriptorByUuid("6a5a83dc-8ca7-11eb-8dcd-0242ac130003"))
+                .thenReturn(descriptor);
         List<BluetoothGattDescriptor> descriptors = new ArrayList<>();
         descriptors.add(descriptor);
         when(charMock.getGattDescriptors()).thenReturn(descriptors);
-        when(charMock.readValue(null)).thenReturn(new byte[] { 0x02, 0x03 });
+        when(charMock.readValue(null)).thenReturn(new byte[] {0x02, 0x03});
         DeviceManager deviceManagerMock = mock(DeviceManager.class);
         bluetoothLeGattCharacteristic = new BluetoothLeGattCharacteristicImpl(charMock) {
 
@@ -76,23 +75,31 @@ public class BluetoothLeGattCharacteristicImplTest {
     @Test
     public void getterTest() {
         assertEquals(UUID.fromString("6a5a83dc-8ca7-11eb-8dcd-0242ac130003"), bluetoothLeGattCharacteristic.getUUID());
-        assertEquals("AA:BB:CC:DD:EE:FF", bluetoothLeGattCharacteristic.getService().getDevice().getAddress());
+        assertEquals(
+                "AA:BB:CC:DD:EE:FF",
+                bluetoothLeGattCharacteristic.getService().getDevice().getAddress());
         assertEquals(0x00, bluetoothLeGattCharacteristic.getValue()[0]);
         assertEquals(0x01, bluetoothLeGattCharacteristic.getValue()[1]);
         assertFalse(bluetoothLeGattCharacteristic.isNotifying());
-        assertEquals(BluetoothLeGattCharacteristicProperties.BROADCAST,
+        assertEquals(
+                BluetoothLeGattCharacteristicProperties.BROADCAST,
                 bluetoothLeGattCharacteristic.getProperties().get(0));
     }
 
     @Test
     public void findDescriptorByUuidTest() throws KuraBluetoothResourceNotFoundException {
-        assertEquals("6a5a83dc-8ca7-11eb-8dcd-0242ac130003", bluetoothLeGattCharacteristic
-                .findDescriptor(UUID.fromString("6a5a83dc-8ca7-11eb-8dcd-0242ac130003")).getUUID().toString());
+        assertEquals(
+                "6a5a83dc-8ca7-11eb-8dcd-0242ac130003",
+                bluetoothLeGattCharacteristic
+                        .findDescriptor(UUID.fromString("6a5a83dc-8ca7-11eb-8dcd-0242ac130003"))
+                        .getUUID()
+                        .toString());
     }
 
     @Test
     public void findDescriptorsTest() throws KuraBluetoothResourceNotFoundException {
-        assertEquals("6a5a83dc-8ca7-11eb-8dcd-0242ac130003",
+        assertEquals(
+                "6a5a83dc-8ca7-11eb-8dcd-0242ac130003",
                 bluetoothLeGattCharacteristic.findDescriptors().get(0).getUUID().toString());
     }
 
@@ -119,5 +126,4 @@ public class BluetoothLeGattCharacteristicImplTest {
         bluetoothLeGattCharacteristic.writeValue(value);
         verify(charMock, times(1)).writeValue(value, null);
     }
-
 }

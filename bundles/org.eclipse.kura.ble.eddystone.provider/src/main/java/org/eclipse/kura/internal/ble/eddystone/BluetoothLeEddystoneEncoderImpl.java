@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2017, 2020 Eurotech and/or its affiliates and others
- * 
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  *******************************************************************************/
@@ -27,7 +27,7 @@ public class BluetoothLeEddystoneEncoderImpl implements BluetoothLeEddystoneEnco
     private static final byte PKT_BYTES_NUMBER = (byte) 0x1f;
     private static final byte PAYLOAD_BYTES_NUMBER = (byte) 0x03;
     private static final byte UUID_LIST = (byte) 0x03;
-    private static final byte[] EDDYSTONE_UUID = { (byte) 0xFE, (byte) 0xAA };
+    private static final byte[] EDDYSTONE_UUID = {(byte) 0xFE, (byte) 0xAA};
     private static final byte EDDYSTONE_UID_PAYLOAD_LENGTH = (byte) 0x17;
     private static final byte SERVICE_DATA = (byte) 0x16;
     private static final Integer URL_MAX_LENGTH = 17;

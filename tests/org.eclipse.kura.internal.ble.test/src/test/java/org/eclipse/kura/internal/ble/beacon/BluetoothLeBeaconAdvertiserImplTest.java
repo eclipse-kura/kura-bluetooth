@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2018, 2020 Eurotech and/or its affiliates and others
- * 
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  ******************************************************************************/
@@ -32,8 +32,8 @@ public class BluetoothLeBeaconAdvertiserImplTest {
     public void testStartBeaconAdvertising() throws KuraBluetoothCommandException {
         BluetoothLeAdapter adapterMock = mock(BluetoothLeAdapter.class);
         BluetoothLeBeaconManagerImpl beaconManagerMock = mock(BluetoothLeBeaconManagerImpl.class);
-        BluetoothLeBeaconAdvertiserImpl<?> svc = new BluetoothLeBeaconAdvertiserImpl<>(adapterMock, null,
-                beaconManagerMock);
+        BluetoothLeBeaconAdvertiserImpl<?> svc =
+                new BluetoothLeBeaconAdvertiserImpl<>(adapterMock, null, beaconManagerMock);
 
         String devName = "devname";
         when(adapterMock.getInterfaceName()).thenReturn(devName);
@@ -47,8 +47,8 @@ public class BluetoothLeBeaconAdvertiserImplTest {
     public void testStopBeaconAdvertising() throws KuraBluetoothCommandException {
         BluetoothLeAdapter adapterMock = mock(BluetoothLeAdapter.class);
         BluetoothLeBeaconManagerImpl beaconManagerMock = mock(BluetoothLeBeaconManagerImpl.class);
-        BluetoothLeBeaconAdvertiserImpl<?> svc = new BluetoothLeBeaconAdvertiserImpl<>(adapterMock, null,
-                beaconManagerMock);
+        BluetoothLeBeaconAdvertiserImpl<?> svc =
+                new BluetoothLeBeaconAdvertiserImpl<>(adapterMock, null, beaconManagerMock);
 
         String devName = "devname";
         when(adapterMock.getInterfaceName()).thenReturn(devName);
@@ -62,8 +62,8 @@ public class BluetoothLeBeaconAdvertiserImplTest {
     public void testUpdateBeaconAdvertisingInterval() throws KuraBluetoothCommandException {
         BluetoothLeAdapter adapterMock = mock(BluetoothLeAdapter.class);
         BluetoothLeBeaconManagerImpl beaconManagerMock = mock(BluetoothLeBeaconManagerImpl.class);
-        BluetoothLeBeaconAdvertiserImpl<?> svc = new BluetoothLeBeaconAdvertiserImpl<>(adapterMock, null,
-                beaconManagerMock);
+        BluetoothLeBeaconAdvertiserImpl<?> svc =
+                new BluetoothLeBeaconAdvertiserImpl<>(adapterMock, null, beaconManagerMock);
 
         String devName = "devname";
         when(adapterMock.getInterfaceName()).thenReturn(devName);
@@ -80,8 +80,8 @@ public class BluetoothLeBeaconAdvertiserImplTest {
         BluetoothLeAdapter adapterMock = mock(BluetoothLeAdapter.class);
         BluetoothLeBeaconEncoder encoder = null;
         BluetoothLeBeaconManagerImpl beaconManagerMock = mock(BluetoothLeBeaconManagerImpl.class);
-        BluetoothLeBeaconAdvertiserImpl<TestBeacon> svc = new BluetoothLeBeaconAdvertiserImpl<TestBeacon>(adapterMock,
-                encoder, beaconManagerMock);
+        BluetoothLeBeaconAdvertiserImpl<TestBeacon> svc =
+                new BluetoothLeBeaconAdvertiserImpl<TestBeacon>(adapterMock, encoder, beaconManagerMock);
 
         String devName = "devname";
         when(adapterMock.getInterfaceName()).thenReturn(devName);
@@ -93,5 +93,4 @@ public class BluetoothLeBeaconAdvertiserImplTest {
     }
 }
 
-class TestBeacon extends BluetoothLeBeacon {
-}
+class TestBeacon extends BluetoothLeBeacon {}

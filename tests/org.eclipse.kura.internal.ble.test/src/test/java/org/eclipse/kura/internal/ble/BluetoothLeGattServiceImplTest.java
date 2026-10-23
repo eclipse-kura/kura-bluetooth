@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021, 2026 Eurotech and/or its affiliates and others
- * 
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  ******************************************************************************/
@@ -17,18 +17,16 @@ import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.github.hypfvieh.bluetooth.wrapper.BluetoothDevice;
+import com.github.hypfvieh.bluetooth.wrapper.BluetoothGattCharacteristic;
+import com.github.hypfvieh.bluetooth.wrapper.BluetoothGattService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
 import org.eclipse.kura.KuraBluetoothResourceNotFoundException;
 import org.freedesktop.dbus.exceptions.DBusException;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.github.hypfvieh.bluetooth.wrapper.BluetoothDevice;
-import com.github.hypfvieh.bluetooth.wrapper.BluetoothGattCharacteristic;
-import com.github.hypfvieh.bluetooth.wrapper.BluetoothGattService;
 
 public class BluetoothLeGattServiceImplTest {
 
@@ -61,13 +59,18 @@ public class BluetoothLeGattServiceImplTest {
 
     @Test
     public void findCharacteristicByUuidTest() throws KuraBluetoothResourceNotFoundException {
-        assertEquals("6a5a83dc-bbbb-11eb-8dcd-0242ac130003", bluetoothLeGattService
-                .findCharacteristic(UUID.fromString("6a5a83dc-bbbb-11eb-8dcd-0242ac130003")).getUUID().toString());
+        assertEquals(
+                "6a5a83dc-bbbb-11eb-8dcd-0242ac130003",
+                bluetoothLeGattService
+                        .findCharacteristic(UUID.fromString("6a5a83dc-bbbb-11eb-8dcd-0242ac130003"))
+                        .getUUID()
+                        .toString());
     }
 
     @Test
     public void findCharacteristicsTest() throws KuraBluetoothResourceNotFoundException {
-        assertEquals("6a5a83dc-bbbb-11eb-8dcd-0242ac130003",
+        assertEquals(
+                "6a5a83dc-bbbb-11eb-8dcd-0242ac130003",
                 bluetoothLeGattService.findCharacteristics().get(0).getUUID().toString());
     }
 
@@ -75,5 +78,4 @@ public class BluetoothLeGattServiceImplTest {
     public void getDeviceTest() {
         assertEquals("AA:BB:CC:DD:EE:FF", bluetoothLeGattService.getDevice().getAddress());
     }
-
 }

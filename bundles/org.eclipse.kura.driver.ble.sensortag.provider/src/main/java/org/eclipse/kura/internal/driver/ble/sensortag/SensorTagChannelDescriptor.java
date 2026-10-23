@@ -1,12 +1,12 @@
 /**
  * Copyright (c) 2017, 2020 Eurotech and/or its affiliates and others
- * 
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  */
@@ -14,7 +14,6 @@ package org.eclipse.kura.internal.driver.ble.sensortag;
 
 import java.util.List;
 import java.util.Map;
-
 import org.eclipse.kura.configuration.metatype.Option;
 import org.eclipse.kura.core.configuration.metatype.Tad;
 import org.eclipse.kura.core.configuration.metatype.Toption;
@@ -95,5 +94,4 @@ public final class SensorTagChannelDescriptor implements ChannelDescriptor {
     static int getNotificationPeriod(Map<String, Object> properties) {
         return Integer.parseInt((String) properties.get(NOTIFICATION_PERIOD));
     }
-
 }

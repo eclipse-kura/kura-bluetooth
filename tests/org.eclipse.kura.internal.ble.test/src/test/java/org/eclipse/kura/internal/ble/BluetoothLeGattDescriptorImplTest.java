@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Eurotech and/or its affiliates and others
- * 
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  ******************************************************************************/
@@ -18,13 +18,12 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.github.hypfvieh.bluetooth.wrapper.BluetoothGattCharacteristic;
+import com.github.hypfvieh.bluetooth.wrapper.BluetoothGattDescriptor;
 import org.eclipse.kura.KuraBluetoothIOException;
 import org.freedesktop.dbus.exceptions.DBusException;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.github.hypfvieh.bluetooth.wrapper.BluetoothGattCharacteristic;
-import com.github.hypfvieh.bluetooth.wrapper.BluetoothGattDescriptor;
 
 public class BluetoothLeGattDescriptorImplTest {
 
@@ -34,12 +33,12 @@ public class BluetoothLeGattDescriptorImplTest {
     @BeforeClass
     public static void setup() throws DBusException {
         descMock = mock(BluetoothGattDescriptor.class);
-        when(descMock.readValue(null)).thenReturn(new byte[] { 0x00, 0x01 });
+        when(descMock.readValue(null)).thenReturn(new byte[] {0x00, 0x01});
         when(descMock.getUuid()).thenReturn("6a5a83dc-8ca7-11eb-8dcd-0242ac130003");
         BluetoothGattCharacteristic charMock = mock(BluetoothGattCharacteristic.class);
         when(charMock.getUuid()).thenReturn("6a5a83dc-aaaa-11eb-8dcd-0242ac130003");
         when(descMock.getCharacteristic()).thenReturn(charMock);
-        when(descMock.getValue()).thenReturn(new byte[] { 0x02, 0x03 });
+        when(descMock.getValue()).thenReturn(new byte[] {0x02, 0x03});
         bluetoothLeGattDescriptor = new BluetoothLeGattDescriptorImpl(descMock);
     }
 
@@ -57,12 +56,15 @@ public class BluetoothLeGattDescriptorImplTest {
 
     @Test
     public void getUUIDTest() {
-        assertEquals("6a5a83dc-8ca7-11eb-8dcd-0242ac130003", bluetoothLeGattDescriptor.getUUID().toString());
+        assertEquals(
+                "6a5a83dc-8ca7-11eb-8dcd-0242ac130003",
+                bluetoothLeGattDescriptor.getUUID().toString());
     }
 
     @Test
     public void getCharacteristicTest() {
-        assertEquals("6a5a83dc-aaaa-11eb-8dcd-0242ac130003",
+        assertEquals(
+                "6a5a83dc-aaaa-11eb-8dcd-0242ac130003",
                 bluetoothLeGattDescriptor.getCharacteristic().getUUID().toString());
     }
 
@@ -71,5 +73,4 @@ public class BluetoothLeGattDescriptorImplTest {
         assertEquals(0x02, bluetoothLeGattDescriptor.getValue()[0]);
         assertEquals(0x03, bluetoothLeGattDescriptor.getValue()[1]);
     }
-
 }

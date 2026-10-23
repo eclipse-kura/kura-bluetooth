@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2018, 2020 Eurotech and/or its affiliates and others
- * 
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  ******************************************************************************/
@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-
 import org.eclipse.kura.ble.ibeacon.BluetoothLeIBeacon;
 import org.eclipse.kura.ble.ibeacon.BluetoothLeIBeaconService;
 import org.eclipse.kura.bluetooth.le.BluetoothLeAdapter;
@@ -171,15 +170,15 @@ public class IBeaconDriverTest {
         record.setChannelConfig(config);
         records.add(record);
 
-        ChannelListener listener = event -> assertTrue(
-                "00000000-1111-2222-3333-444444444444;-10;0;1;1;0.31622776601683794"
+        ChannelListener listener =
+                event -> assertTrue("00000000-1111-2222-3333-444444444444;-10;0;1;1;0.31622776601683794"
                         .equals(((StringValue) event.getChannelRecord().getValue()).getValue()));
 
         svc.registerChannelListener(config, listener);
         assertEquals(1, ibeaconListeners.size());
 
-        BluetoothLeIBeacon iBeacon = new BluetoothLeIBeacon(UUID.fromString("00000000-1111-2222-3333-444444444444"),
-                (short) 1, (short) 1, (short) -10);
+        BluetoothLeIBeacon iBeacon = new BluetoothLeIBeacon(
+                UUID.fromString("00000000-1111-2222-3333-444444444444"), (short) 1, (short) 1, (short) -10);
         svc.onBeaconsReceived(iBeacon);
 
         svc.unregisterChannelListener(listener);
@@ -198,16 +197,14 @@ public class IBeaconDriverTest {
     @Test
     public void testIBeaconListenerEquality() {
 
-        ChannelListener channelListener1 = event -> {
-        };
+        ChannelListener channelListener1 = event -> {};
         IBeaconListener iBeaconListener1 = new IBeaconListener(IBEACON1, channelListener1);
 
         assertTrue(iBeaconListener1.equals(iBeaconListener1));
         assertFalse(iBeaconListener1 == null);
         assertFalse(iBeaconListener1.equals(channelListener1));
 
-        ChannelListener channelListener2 = event -> {
-        };
+        ChannelListener channelListener2 = event -> {};
         IBeaconListener iBeaconListener2 = new IBeaconListener(null, channelListener2);
         assertFalse(iBeaconListener2.equals(iBeaconListener1));
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021, 2022 Eurotech and/or its affiliates and others
- * 
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  ******************************************************************************/
@@ -18,10 +18,11 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.github.hypfvieh.bluetooth.DeviceManager;
+import com.github.hypfvieh.bluetooth.wrapper.BluetoothAdapter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
 import org.eclipse.kura.bluetooth.le.BluetoothLeAdapter;
 import org.eclipse.kura.core.linux.executor.LinuxExitStatus;
 import org.eclipse.kura.executor.Command;
@@ -30,9 +31,6 @@ import org.eclipse.kura.executor.CommandStatus;
 import org.eclipse.kura.system.SystemService;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.github.hypfvieh.bluetooth.DeviceManager;
-import com.github.hypfvieh.bluetooth.wrapper.BluetoothAdapter;
 
 public class BluetoothLeServiceImplTest {
 

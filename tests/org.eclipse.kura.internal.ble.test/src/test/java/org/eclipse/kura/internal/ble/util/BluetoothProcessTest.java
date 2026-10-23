@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2018, 2022 Eurotech and/or its affiliates and others
- * 
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  ******************************************************************************/
@@ -29,7 +29,7 @@ public class BluetoothProcessTest {
         CommandExecutorService executorMock = mock(CommandExecutorService.class);
         BluetoothProcess bluetoothProcess = new BluetoothProcess(executorMock);
 
-        String[] commandLine = { "hcitool", "lescan" };
+        String[] commandLine = {"hcitool", "lescan"};
         Command command = new Command(commandLine);
         bluetoothProcess.exec(commandLine, null);
 
@@ -41,12 +41,11 @@ public class BluetoothProcessTest {
         CommandExecutorService executorMock = mock(CommandExecutorService.class);
         BluetoothProcess bluetoothProcess = new BluetoothProcess(executorMock);
 
-        String[] commandLine = { "hcitool", "lescan" };
+        String[] commandLine = {"hcitool", "lescan"};
         Command command = new Command("{ exec hcitool lescan >/dev/null; } 3>&1".split(" "));
         command.setExecuteInAShell(true);
         bluetoothProcess.execSnoop(commandLine, null);
 
         verify(executorMock, times(1)).execute(eq(command), any());
     }
-
 }

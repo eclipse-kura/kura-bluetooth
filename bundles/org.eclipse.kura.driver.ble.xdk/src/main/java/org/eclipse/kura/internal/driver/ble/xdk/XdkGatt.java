@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2019, 2020 Eurotech and/or its affiliates and others
- * 
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  *******************************************************************************/
@@ -51,25 +51,24 @@ public class XdkGatt {
 
     // High Data Rata Service:
     public static final UUID UUID_XDK_HIGH_DATA_RATE = UUID.fromString("c2967210-7ba4-11e4-82f8-0800200c9a66");
-    public static final UUID UUID_XDK_HIGH_DATA_RATE_HIGH_PRIORITY_ARREY = UUID
-            .fromString("c2967211-7ba4-11e4-82f8-0800200c9a66");
-    public static final UUID UUID_XDK_HIGH_DATA_RATE_LOW_PRIORITY_ARREY = UUID
-            .fromString("c2967212-7ba4-11e4-82f8-0800200c9a66");
+    public static final UUID UUID_XDK_HIGH_DATA_RATE_HIGH_PRIORITY_ARREY =
+            UUID.fromString("c2967211-7ba4-11e4-82f8-0800200c9a66");
+    public static final UUID UUID_XDK_HIGH_DATA_RATE_LOW_PRIORITY_ARREY =
+            UUID.fromString("c2967212-7ba4-11e4-82f8-0800200c9a66");
 
     // Control XDK Service:
     public static final UUID UUID_XDK_CONTROL_SERVICE = UUID.fromString("55b741d0-7ada-11e4-82f8-0800200c9a66");
-    public static final UUID UUID_XDK_CONTROL_SERVICE_START_SENSOR_SAMPLING_AND_NOTIFICATION = UUID
-            .fromString("55b741d1-7ada-11e4-82f8-0800200c9a66");
-    public static final UUID UUID_XDK_CONTROL_SERVICE_CHANGE_SENSOR_SAMPLING_RATA = UUID
-            .fromString("55b741d2-7ada-11e4-82f8-0800200c9a66");
+    public static final UUID UUID_XDK_CONTROL_SERVICE_START_SENSOR_SAMPLING_AND_NOTIFICATION =
+            UUID.fromString("55b741d1-7ada-11e4-82f8-0800200c9a66");
+    public static final UUID UUID_XDK_CONTROL_SERVICE_CHANGE_SENSOR_SAMPLING_RATA =
+            UUID.fromString("55b741d2-7ada-11e4-82f8-0800200c9a66");
     public static final UUID UUID_XDK_CONTROL_SERVICE_REBOOT = UUID.fromString("55b741d3-7ada-11e4-82f8-0800200c9a66");
-    public static final UUID UUID_XDK_CONTROL_SERVICE_GET_FIRMWARE_VERSION = UUID
-            .fromString("55b741d4-7ada-11e4-82f8-0800200c9a66");
-    public static final UUID UUID_XDK_CONTROL_SERVICE_CONTROL_NODE_USE_SENSOR_FUSION = UUID
-            .fromString("55b741d5-7ada-11e4-82f8-0800200c9a66");
+    public static final UUID UUID_XDK_CONTROL_SERVICE_GET_FIRMWARE_VERSION =
+            UUID.fromString("55b741d4-7ada-11e4-82f8-0800200c9a66");
+    public static final UUID UUID_XDK_CONTROL_SERVICE_CONTROL_NODE_USE_SENSOR_FUSION =
+            UUID.fromString("55b741d5-7ada-11e4-82f8-0800200c9a66");
 
     private XdkGatt() {
         // Not used
     }
-
 }

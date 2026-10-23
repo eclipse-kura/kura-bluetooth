@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2017, 2020 Eurotech and/or its affiliates and others
- * 
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  *******************************************************************************/
@@ -26,7 +26,9 @@ public class BluetoothLeBeaconScannerImpl<T extends BluetoothLeBeacon> implement
     private final BluetoothLeBeaconManagerImpl beaconManager;
     private boolean isScanning;
 
-    public BluetoothLeBeaconScannerImpl(BluetoothLeAdapter adapter, BluetoothLeBeaconDecoder<T> decoder,
+    public BluetoothLeBeaconScannerImpl(
+            BluetoothLeAdapter adapter,
+            BluetoothLeBeaconDecoder<T> decoder,
             BluetoothLeBeaconManagerImpl beaconManager) {
         this.adapter = adapter;
         this.decoder = decoder;
@@ -72,8 +74,8 @@ public class BluetoothLeBeaconScannerImpl<T extends BluetoothLeBeacon> implement
 
     @Override
     public void addBeaconListener(BluetoothLeBeaconListener<T> listener) {
-        this.beaconManager.addBeaconListener((BluetoothLeBeaconListener<BluetoothLeBeacon>) listener,
-                this.decoder.getBeaconType());
+        this.beaconManager.addBeaconListener(
+                (BluetoothLeBeaconListener<BluetoothLeBeacon>) listener, this.decoder.getBeaconType());
     }
 
     @Override

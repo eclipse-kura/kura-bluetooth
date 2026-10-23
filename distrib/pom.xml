@@ -13,9 +13,7 @@
      Eurotech
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -28,6 +26,53 @@
 
     <artifactId>kura-bluetooth.distrib</artifactId>
     <packaging>pom</packaging>
+
+    <!-- Change this if your org is different -->
+    <organization>
+        <name>Eclipse Kura</name>
+        <url>https://eclipse.dev/kura/</url>
+    </organization>
+
+    <properties>
+
+        <!--
+            With n being the start level, config.ini will be populated depending on which plugins directory the
+        bundle is put:
+            n => bundle.name:@n;
+            ns => bundle.name:@n:start;
+        -->
+        <ble.providers.installation.dir>/opt/eclipse/kura/plugins/4s</ble.providers.installation.dir>
+        <ble.drivers.installation.dir>/opt/eclipse/kura/plugins/6s</ble.drivers.installation.dir>
+        <bluez.dbus.osgi.installation.dir>/opt/eclipse/kura/plugins/3</bluez.dbus.osgi.installation.dir>
+
+        <!-- name of the JAR produced in bundles/target -->
+        <provider.jar.name>org.eclipse.kura.ble.provider-${project.version}.jar</provider.jar.name>
+        <eddystone.jar.name>org.eclipse.kura.ble.eddystone.provider-${project.version}.jar</eddystone.jar.name>
+        <ibeacon.jar.name>org.eclipse.kura.ble.ibeacon.provider-${project.version}.jar</ibeacon.jar.name>
+        <sensortag.driver.jar.name>org.eclipse.kura.driver.ble.sensortag.provider-${project.version}.jar</sensortag.driver.jar.name>
+        <xdk.driver.jar.name>org.eclipse.kura.driver.ble.xdk-${project.version}.jar</xdk.driver.jar.name>
+        <eddystone.driver.jar.name>org.eclipse.kura.driver.eddystone.provider-${project.version}.jar</eddystone.driver.jar.name>
+        <ibeacon.driver.jar.name>org.eclipse.kura.driver.ibeacon.provider-${project.version}.jar</ibeacon.driver.jar.name>
+        <bluez.dbus.osgi.jar.name>bluez-dbus-osgi-0.1.4.jar</bluez.dbus.osgi.jar.name>
+
+        <!--
+            Available DEB architectures:
+            all, amd64, arm64
+        -->
+        <deb.architecture>all</deb.architecture>
+
+        <!-- final name of the generated debian package -->
+        <package.name>kura-bluetooth</package.name>
+
+        <!-- properties used for artifact upload on artifactory repository -->
+        <kura.repo.distribution>kura-6</kura.repo.distribution>
+        <kura.repo.module>base</kura.repo.module>
+
+        <!-- edit following fields and file deb/control/control -->
+        <summary>Eclipse Kura Bluetooth Addon</summary>
+        <long.description>The Eclipse Kura Bluetooth Addon provides Bluetooth Low Energy (BLE)
+            support for the Eclipse Kura framework.</long.description>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -72,53 +117,200 @@
         </dependency>
     </dependencies>
 
-    <!-- Change this if your org is different -->
-    <organization>
-        <name>Eclipse Kura</name>
-        <url>https://eclipse.dev/kura/</url>
-    </organization>
+    <build>
+        <plugins>
+            <!-- Responsible for removing the "-SNAPSHOT" from the project.version -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <id>regex-property</id>
+                        <goals>
+                            <goal>regex-property</goal>
+                        </goals>
+                        <configuration>
+                            <name>release.version</name>
+                            <value>${project.version}</value>
+                            <regex>-SNAPSHOT</regex>
+                            <replacement />
+                            <failIfNoMatch>false</failIfNoMatch>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 
-    <properties>
+            <!-- Responsible for retrieving the short git commit (defaults to length 7) -->
+            <plugin>
+                <groupId>io.github.git-commit-id</groupId>
+                <artifactId>git-commit-id-maven-plugin</artifactId>
+                <version>9.0.1</version>
+                <configuration>
+                    <injectAllReactorProjects>true</injectAllReactorProjects>
+                    <generateGitPropertiesFile>false</generateGitPropertiesFile>
+                    <skipPoms>false</skipPoms>
+                    <includeOnlyProperties>
+                        <includeOnlyProperty>^git.commit.id.abbrev$</includeOnlyProperty>
+                    </includeOnlyProperties>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>get-the-git-infos</id>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                        <phase>initialize</phase>
+                    </execution>
+                </executions>
+            </plugin>
 
-        <!--
-            With n being the start level, config.ini will be populated depending on which plugins directory the
-        bundle is put:
-            n => bundle.name:@n;
-            ns => bundle.name:@n:start;
-        -->
-        <ble.providers.installation.dir>/opt/eclipse/kura/plugins/4s</ble.providers.installation.dir>
-        <ble.drivers.installation.dir>/opt/eclipse/kura/plugins/6s</ble.drivers.installation.dir>
-        <bluez.dbus.osgi.installation.dir>/opt/eclipse/kura/plugins/3</bluez.dbus.osgi.installation.dir>
+            <!-- Responsible for copying the dependencies into a known location -->
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>get-bundles-to-distrib</id>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <excludeTypes>pom</excludeTypes>
+                            <excludeClassifiers>sources</excludeClassifiers>
+                            <excludeTransitive>true</excludeTransitive>
+                            <outputDirectory>${project.build.directory}/plugins</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 
-        <!-- name of the JAR produced in bundles/target -->
-        <provider.jar.name>org.eclipse.kura.ble.provider-${project.version}.jar</provider.jar.name>
-        <eddystone.jar.name>org.eclipse.kura.ble.eddystone.provider-${project.version}.jar</eddystone.jar.name>
-        <ibeacon.jar.name>org.eclipse.kura.ble.ibeacon.provider-${project.version}.jar</ibeacon.jar.name>
-        <sensortag.driver.jar.name>
-            org.eclipse.kura.driver.ble.sensortag.provider-${project.version}.jar</sensortag.driver.jar.name>
-        <xdk.driver.jar.name>org.eclipse.kura.driver.ble.xdk-${project.version}.jar</xdk.driver.jar.name>
-        <eddystone.driver.jar.name>org.eclipse.kura.driver.eddystone.provider-${project.version}.jar</eddystone.driver.jar.name>
-        <ibeacon.driver.jar.name>org.eclipse.kura.driver.ibeacon.provider-${project.version}.jar</ibeacon.driver.jar.name>
-        <bluez.dbus.osgi.jar.name>bluez-dbus-osgi-0.1.4.jar</bluez.dbus.osgi.jar.name>
+            <plugin>
+                <groupId>org.vafer</groupId>
+                <artifactId>jdeb</artifactId>
+                <version>1.12</version>
+                <executions>
+                    <execution>
+                        <id>generate-deb</id>
+                        <goals>
+                            <goal>jdeb</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <verbose>true</verbose>
+                            <deb>${basedir}/target/deb/${package.name}_${package.version}-${package.revision}_${deb.architecture}.deb</deb>
+                            <snapshotExpand>true</snapshotExpand>
+                            <snapshotTemplate>${package.snapshot}</snapshotTemplate>
+                            <controlDir>${project.basedir}/deb/control</controlDir>
+                            <skipPOMs>false</skipPOMs>
+                            <dataSet>
+                                <data>
+                                    <src>${project.build.directory}/plugins/${provider.jar.name}</src>
+                                    <type>file</type>
+                                    <mapper>
+                                        <type>perm</type>
+                                        <prefix>${ble.providers.installation.dir}</prefix>
+                                        <user>kurad</user>
+                                        <group>kurad</group>
+                                        <filemode>600</filemode>
+                                    </mapper>
+                                </data>
+                                <data>
+                                    <src>${project.build.directory}/plugins/${eddystone.jar.name}</src>
+                                    <type>file</type>
+                                    <mapper>
+                                        <type>perm</type>
+                                        <prefix>${ble.providers.installation.dir}</prefix>
+                                        <user>kurad</user>
+                                        <group>kurad</group>
+                                        <filemode>600</filemode>
+                                    </mapper>
+                                </data>
+                                <data>
+                                    <src>${project.build.directory}/plugins/${ibeacon.jar.name}</src>
+                                    <type>file</type>
+                                    <mapper>
+                                        <type>perm</type>
+                                        <prefix>${ble.providers.installation.dir}</prefix>
+                                        <user>kurad</user>
+                                        <group>kurad</group>
+                                        <filemode>600</filemode>
+                                    </mapper>
+                                </data>
 
-        <!--
-            Available DEB architectures:
-            all, amd64, arm64
-        -->
-        <deb.architecture>all</deb.architecture>
+                                <data>
+                                    <src>${project.build.directory}/plugins/${sensortag.driver.jar.name}</src>
+                                    <type>file</type>
+                                    <mapper>
+                                        <type>perm</type>
+                                        <prefix>${ble.drivers.installation.dir}</prefix>
+                                        <user>kurad</user>
+                                        <group>kurad</group>
+                                        <filemode>600</filemode>
+                                    </mapper>
+                                </data>
+                                <data>
+                                    <src>${project.build.directory}/plugins/${xdk.driver.jar.name}</src>
+                                    <type>file</type>
+                                    <mapper>
+                                        <type>perm</type>
+                                        <prefix>${ble.drivers.installation.dir}</prefix>
+                                        <user>kurad</user>
+                                        <group>kurad</group>
+                                        <filemode>600</filemode>
+                                    </mapper>
+                                </data>
+                                <data>
+                                    <src>${project.build.directory}/plugins/${eddystone.driver.jar.name}</src>
+                                    <type>file</type>
+                                    <mapper>
+                                        <type>perm</type>
+                                        <prefix>${ble.drivers.installation.dir}</prefix>
+                                        <user>kurad</user>
+                                        <group>kurad</group>
+                                        <filemode>600</filemode>
+                                    </mapper>
+                                </data>
+                                <data>
+                                    <src>${project.build.directory}/plugins/${ibeacon.driver.jar.name}</src>
+                                    <type>file</type>
+                                    <mapper>
+                                        <type>perm</type>
+                                        <prefix>${ble.drivers.installation.dir}</prefix>
+                                        <user>kurad</user>
+                                        <group>kurad</group>
+                                        <filemode>600</filemode>
+                                    </mapper>
+                                </data>
+                                <data>
+                                    <src>${project.build.directory}/plugins/${bluez.dbus.osgi.jar.name}</src>
+                                    <type>file</type>
+                                    <mapper>
+                                        <type>perm</type>
+                                        <prefix>${bluez.dbus.osgi.installation.dir}</prefix>
+                                        <user>kurad</user>
+                                        <group>kurad</group>
+                                        <filemode>600</filemode>
+                                    </mapper>
+                                </data>
+                                <!-- resources -->
 
-        <!-- final name of the generated debian package -->
-        <package.name>kura-bluetooth</package.name>
+                                <data>
+                                    <type>files</type>
+                                    <paths>
+                                        <path>${project.basedir}/src/main/resources/scripts/kura_bluetooth_install.sh</path>
+                                        <path>${project.basedir}/src/main/resources/scripts/kura_bluetooth_uninstall.sh</path>
+                                    </paths>
+                                    <dst>/opt/eclipse/kura/.data</dst>
+                                </data>
+                            </dataSet>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 
-        <!-- properties used for artifact upload on artifactory repository -->
-        <kura.repo.distribution>kura-6</kura.repo.distribution>
-        <kura.repo.module>base</kura.repo.module>
-
-        <!-- edit following fields and file deb/control/control -->
-        <summary>Eclipse Kura Bluetooth Addon</summary>
-        <long.description>The Eclipse Kura Bluetooth Addon provides Bluetooth Low Energy (BLE)
-            support for the Eclipse Kura framework.</long.description>
-    </properties>
+        </plugins>
+    </build>
 
     <profiles>
         <!-- Internal profile: FOR INTERNAL USE ONLY - active if -DreleaseBuild is *not* specified. -->
@@ -176,203 +368,4 @@
             </build>
         </profile>
     </profiles>
-
-    <build>
-        <plugins>
-            <!-- Responsible for removing the "-SNAPSHOT" from the project.version -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.6.0</version>
-                <executions>
-                    <execution>
-                        <id>regex-property</id>
-                        <goals>
-                            <goal>regex-property</goal>
-                        </goals>
-                        <configuration>
-                            <name>release.version</name>
-                            <value>${project.version}</value>
-                            <regex>-SNAPSHOT</regex>
-                            <replacement></replacement>
-                            <failIfNoMatch>false</failIfNoMatch>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- Responsible for retrieving the short git commit (defaults to length 7) -->
-            <plugin>
-                <groupId>io.github.git-commit-id</groupId>
-                <artifactId>git-commit-id-maven-plugin</artifactId>
-                <version>9.0.1</version>
-                <executions>
-                    <execution>
-                        <id>get-the-git-infos</id>
-                        <goals>
-                            <goal>revision</goal>
-                        </goals>
-                        <phase>initialize</phase>
-                    </execution>
-                </executions>
-                <configuration>
-                    <injectAllReactorProjects>true</injectAllReactorProjects>
-                    <generateGitPropertiesFile>false</generateGitPropertiesFile>
-                    <skipPoms>false</skipPoms>
-                    <includeOnlyProperties>
-                        <includeOnlyProperty>^git.commit.id.abbrev$</includeOnlyProperty>
-                    </includeOnlyProperties>
-                </configuration>
-            </plugin>
-
-            <!-- Responsible for copying the dependencies into a known location -->
-            <plugin>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>get-bundles-to-distrib</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <excludeTypes>pom</excludeTypes>
-                            <excludeClassifiers>sources</excludeClassifiers>
-                            <excludeTransitive>true</excludeTransitive>
-                            <outputDirectory>${project.build.directory}/plugins</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.vafer</groupId>
-                <artifactId>jdeb</artifactId>
-                <version>1.12</version>
-                <executions>
-                    <execution>
-                        <id>generate-deb</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jdeb</goal>
-                        </goals>
-                        <configuration>
-                            <verbose>true</verbose>
-                            <deb>${basedir}/target/deb/${package.name}_${package.version}-${package.revision}_${deb.architecture}.deb</deb>
-                            <snapshotExpand>true</snapshotExpand>
-                            <snapshotTemplate>${package.snapshot}</snapshotTemplate>
-                            <controlDir>${project.basedir}/deb/control</controlDir>
-                            <skipPOMs>false</skipPOMs>
-                            <dataSet>
-                                <data>
-                                    <src>${project.build.directory}/plugins/${provider.jar.name}</src>
-                                    <type>file</type>
-                                    <mapper>
-                                        <type>perm</type>
-                                        <prefix>${ble.providers.installation.dir}</prefix>
-                                        <user>kurad</user>
-                                        <group>kurad</group>
-                                        <filemode>600</filemode>
-                                    </mapper>
-                                </data>
-                                <data>
-                                    <src>${project.build.directory}/plugins/${eddystone.jar.name}</src>
-                                    <type>file</type>
-                                    <mapper>
-                                        <type>perm</type>
-                                        <prefix>${ble.providers.installation.dir}</prefix>
-                                        <user>kurad</user>
-                                        <group>kurad</group>
-                                        <filemode>600</filemode>
-                                    </mapper>
-                                </data>
-                                <data>
-                                    <src>${project.build.directory}/plugins/${ibeacon.jar.name}</src>
-                                    <type>file</type>
-                                    <mapper>
-                                        <type>perm</type>
-                                        <prefix>${ble.providers.installation.dir}</prefix>
-                                        <user>kurad</user>
-                                        <group>kurad</group>
-                                        <filemode>600</filemode>
-                                    </mapper>
-                                </data>
-
-                                <data>
-                                    <src>
-                                        ${project.build.directory}/plugins/${sensortag.driver.jar.name}</src>
-                                    <type>file</type>
-                                    <mapper>
-                                        <type>perm</type>
-                                        <prefix>${ble.drivers.installation.dir}</prefix>
-                                        <user>kurad</user>
-                                        <group>kurad</group>
-                                        <filemode>600</filemode>
-                                    </mapper>
-                                </data>
-                                <data>
-                                    <src>${project.build.directory}/plugins/${xdk.driver.jar.name}</src>
-                                    <type>file</type>
-                                    <mapper>
-                                        <type>perm</type>
-                                        <prefix>${ble.drivers.installation.dir}</prefix>
-                                        <user>kurad</user>
-                                        <group>kurad</group>
-                                        <filemode>600</filemode>
-                                    </mapper>
-                                </data>
-                                <data>
-                                    <src>
-                                        ${project.build.directory}/plugins/${eddystone.driver.jar.name}</src>
-                                    <type>file</type>
-                                    <mapper>
-                                        <type>perm</type>
-                                        <prefix>${ble.drivers.installation.dir}</prefix>
-                                        <user>kurad</user>
-                                        <group>kurad</group>
-                                        <filemode>600</filemode>
-                                    </mapper>
-                                </data>
-                                <data>
-                                    <src>
-                                        ${project.build.directory}/plugins/${ibeacon.driver.jar.name}</src>
-                                    <type>file</type>
-                                    <mapper>
-                                        <type>perm</type>
-                                        <prefix>${ble.drivers.installation.dir}</prefix>
-                                        <user>kurad</user>
-                                        <group>kurad</group>
-                                        <filemode>600</filemode>
-                                    </mapper>
-                                </data>
-                                <data>
-                                    <src>
-                                        ${project.build.directory}/plugins/${bluez.dbus.osgi.jar.name}</src>
-                                    <type>file</type>
-                                    <mapper>
-                                        <type>perm</type>
-                                        <prefix>${bluez.dbus.osgi.installation.dir}</prefix>
-                                        <user>kurad</user>
-                                        <group>kurad</group>
-                                        <filemode>600</filemode>
-                                    </mapper>
-                                </data>
-                                <!-- resources -->
-
-                               <data>
-                                    <type>files</type>
-                                    <paths>
-                                        <path>${project.basedir}/src/main/resources/scripts/kura_bluetooth_install.sh</path>
-                                        <path>${project.basedir}/src/main/resources/scripts/kura_bluetooth_uninstall.sh</path>
-                                    </paths>
-                                    <dst>/opt/eclipse/kura/.data</dst>
-                                </data>
-                            </dataSet>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-        </plugins>
-    </build>
 </project>

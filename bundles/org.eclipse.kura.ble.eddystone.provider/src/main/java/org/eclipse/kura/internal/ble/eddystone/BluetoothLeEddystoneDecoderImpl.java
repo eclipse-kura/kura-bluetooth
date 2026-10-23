@@ -1,19 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2017, 2020 Eurotech and/or its affiliates and others
- * 
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  *******************************************************************************/
 package org.eclipse.kura.internal.ble.eddystone;
 
 import java.util.Arrays;
-
 import org.eclipse.kura.ble.eddystone.BluetoothLeEddystone;
 import org.eclipse.kura.ble.eddystone.BluetoothLeEddystoneDecoder;
 import org.osgi.service.component.ComponentContext;
@@ -26,7 +25,7 @@ public class BluetoothLeEddystoneDecoderImpl implements BluetoothLeEddystoneDeco
 
     // See https://github.com/google/eddystone/blob/master/protocol-specification.md
     private static final byte UUID_LIST = (byte) 0x03;
-    private static final byte[] EDDYSTONE_UUID = { (byte) 0xFE, (byte) 0xAA };
+    private static final byte[] EDDYSTONE_UUID = {(byte) 0xFE, (byte) 0xAA};
 
     protected void activate(ComponentContext context) {
         logger.info("Activating Bluetooth Le Eddystone Codec...");
@@ -90,5 +89,4 @@ public class BluetoothLeEddystoneDecoderImpl implements BluetoothLeEddystoneDeco
 
         return null;
     }
-
 }

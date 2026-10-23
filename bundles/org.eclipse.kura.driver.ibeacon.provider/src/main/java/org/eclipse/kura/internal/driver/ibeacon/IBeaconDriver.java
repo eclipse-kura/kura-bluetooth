@@ -1,12 +1,12 @@
 /**
  * Copyright (c) 2018, 2020 Eurotech and/or its affiliates and others
- * 
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  */
@@ -26,7 +26,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-
 import org.eclipse.kura.KuraErrorCode;
 import org.eclipse.kura.KuraException;
 import org.eclipse.kura.KuraRuntimeException;
@@ -260,7 +259,6 @@ public final class IBeaconDriver
             record.setTimestamp(System.currentTimeMillis());
             iBeaconListener.getListener().onChannelEvent(new ChannelEvent(record));
         }
-
     }
 
     private String iBeaconToString(BluetoothLeIBeacon iBeacon) {
@@ -286,5 +284,4 @@ public final class IBeaconDriver
         double ratioLinear = Math.pow(10, (double) ratioDB / 10);
         return Math.sqrt(ratioLinear);
     }
-
 }

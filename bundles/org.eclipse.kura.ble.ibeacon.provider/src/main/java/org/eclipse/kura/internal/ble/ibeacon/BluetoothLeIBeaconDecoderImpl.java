@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2017, 2020 Eurotech and/or its affiliates and others
- * 
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  *******************************************************************************/
@@ -14,7 +14,6 @@ package org.eclipse.kura.internal.ble.ibeacon;
 
 import java.util.Arrays;
 import java.util.UUID;
-
 import org.eclipse.kura.ble.ibeacon.BluetoothLeIBeacon;
 import org.eclipse.kura.ble.ibeacon.BluetoothLeIBeaconDecoder;
 import org.osgi.service.component.ComponentContext;
@@ -25,9 +24,9 @@ public class BluetoothLeIBeaconDecoderImpl implements BluetoothLeIBeaconDecoder 
 
     private static final Logger logger = LoggerFactory.getLogger(BluetoothLeIBeaconDecoderImpl.class);
 
-    private static final byte[] BEACON_ID = { (byte) 0x02, (byte) 0x15 };
-    private static final byte[] COMPANY_CODE = { (byte) 0x00, (byte) 0x4c };
-    private static final byte[] IBEACON_PREFIX = { COMPANY_CODE[1], COMPANY_CODE[0], BEACON_ID[0], BEACON_ID[1] };
+    private static final byte[] BEACON_ID = {(byte) 0x02, (byte) 0x15};
+    private static final byte[] COMPANY_CODE = {(byte) 0x00, (byte) 0x4c};
+    private static final byte[] IBEACON_PREFIX = {COMPANY_CODE[1], COMPANY_CODE[0], BEACON_ID[0], BEACON_ID[1]};
 
     protected void activate(ComponentContext context) {
         logger.info("Activating Bluetooth Le IBeacon Codec...");
@@ -89,9 +88,10 @@ public class BluetoothLeIBeaconDecoderImpl implements BluetoothLeIBeaconDecoder 
                 for (byte ub : Arrays.copyOfRange(b, uuidPtr, majorPtr)) {
                     uuid.append(String.format("%02X", ub));
                 }
-                beacon.setUuid(UUID.fromString(uuid.toString().replaceFirst(
-                        "(\\p{XDigit}{8})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}+)",
-                        "$1-$2-$3-$4-$5")));
+                beacon.setUuid(UUID.fromString(uuid.toString()
+                        .replaceFirst(
+                                "(\\p{XDigit}{8})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}+)",
+                                "$1-$2-$3-$4-$5")));
 
                 int majorl = b[majorPtr + 1] & 0xFF;
                 int majorh = b[majorPtr] & 0xFF;
@@ -108,5 +108,4 @@ public class BluetoothLeIBeaconDecoderImpl implements BluetoothLeIBeaconDecoder 
 
         return null;
     }
-
 }
