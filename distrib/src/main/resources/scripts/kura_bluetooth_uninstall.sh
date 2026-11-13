@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright (c) 2025 Eurotech and/or its affiliates and others
+# Copyright (c) 2025, 2026 Eurotech and/or its affiliates and others
 #
 # This program and the accompanying materials are made
 # available under the terms of the Eclipse Public License 2.0
@@ -25,3 +25,7 @@ if [ -f "${BLUETOOTH_CONF_PATH}.save" ]; then
     echo "Restoring ${BLUETOOTH_CONF_PATH}"
     mv "${BLUETOOTH_CONF_PATH}.save" "${BLUETOOTH_CONF_PATH}"
 fi
+if [ -f /usr/lib/systemd/system/kura.service.d/kura-bluetooth.conf ]; then
+    rm /usr/lib/systemd/system/kura.service.d/kura-bluetooth.conf
+fi
+systemctl daemon-reload

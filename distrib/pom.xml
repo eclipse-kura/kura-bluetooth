@@ -300,6 +300,7 @@
                                     <paths>
                                         <path>${project.basedir}/src/main/resources/scripts/kura_bluetooth_install.sh</path>
                                         <path>${project.basedir}/src/main/resources/scripts/kura_bluetooth_uninstall.sh</path>
+                                        <path>${project.basedir}/src/main/resources/scripts/kura-bluetooth.conf</path>
                                     </paths>
                                     <dst>/opt/eclipse/kura/.data</dst>
                                 </data>
