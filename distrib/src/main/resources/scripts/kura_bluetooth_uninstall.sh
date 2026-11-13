@@ -25,3 +25,7 @@ if [ -f "${BLUETOOTH_CONF_PATH}.save" ]; then
     echo "Restoring ${BLUETOOTH_CONF_PATH}"
     mv "${BLUETOOTH_CONF_PATH}.save" "${BLUETOOTH_CONF_PATH}"
 fi
+if [ -f /usr/lib/systemd/system/kura.service.d/kura-bluetooth.conf ]; then
+    rm /usr/lib/systemd/system/kura.service.d/kura-bluetooth.conf
+fi
+systemctl daemon-reload

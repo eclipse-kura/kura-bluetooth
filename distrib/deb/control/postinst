@@ -46,7 +46,7 @@ if [ "${STATUS}" = "install" ]; then
     export PATH=$PATH:/usr/java/bin:/usr/bin/java/bin
     echo "Configuring Kura bluetooth..."
 
-    bash /opt/eclipse/kura/.data/kura_bluetooth_install.sh 2>&1 | tee -a $LOG | systemd-cat -t Kura
+    bash /opt/eclipse/kura/.data/kura_bluetooth_install.sh /opt/eclipse kura 2>&1 | tee -a $LOG | systemd-cat -t Kura
 
     mkdir -p /opt/eclipse/kura/log
     mv $LOG /opt/eclipse/kura/log/
