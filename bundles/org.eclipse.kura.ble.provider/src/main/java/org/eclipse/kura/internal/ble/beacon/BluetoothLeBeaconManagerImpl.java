@@ -467,6 +467,9 @@ public class BluetoothLeBeaconManagerImpl
 
     @Override
     public void processBTSnoopErrorStream(String string) {
+        if (string != null && !string.trim().isEmpty()) {
+            logger.debug("btmon error output: {}", string.trim());
+        }
         throw new UnsupportedOperationException("Process of BTSnoop error stream is not supported");
     }
 
